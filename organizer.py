@@ -167,8 +167,6 @@ class DefaultOrganizer:
         else:
             return nomatchdir
         for i in DefaultOrganizer.groups.keys():
-            print(ext, i)
-            print("\n\n\n")
             if ext in DefaultOrganizer.groups.get(i):
                 return pth.join(destination_dir, i)
         return nomatchdir
@@ -184,7 +182,7 @@ class DefaultOrganizer:
         nomatchdir = nomatchdir.replace('[:dd:]', destination_dir)
         if not types:
             return nomatchdir
-        return pth.join(destination_dir, types[0])
+        return pth.join(destination_dir, types[1])
 
     def default_action(self, from_, to='', action='find'):
         """
