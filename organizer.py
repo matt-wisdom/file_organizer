@@ -11,7 +11,7 @@ from fuzzywuzzy import fuzz
 import filetype
 
 def log(m, newline=False):
-    print('[LOG] - ' + m)
+    print(m)
     if newline:
         print('\n')
 
