@@ -1,6 +1,7 @@
 # fileorg_tool
 <pre>
-An extensible file searching and organization tool with a couple of features including but not limited to fuzzy search and actions reversal
+An extensible file searching and organization tool with a couple of features 
+including but not limited to fuzzy search and actions reversal
 
 usage: orgnew.py [-h] [-s SEARCH_STRING] [-e EXTENSION] [-d DIRECTORY]
                  [-z DESTINATION] [-m MIN_RATIO] [-b GROUPS] [-n NOMATCHDIR]
