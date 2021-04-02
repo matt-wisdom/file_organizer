@@ -388,8 +388,8 @@ class DefaultOrganizer:
             
             return True if ratio >= min_ratio else False
 
-    @staticmethod
-    def default_simple_search(search, string, m = 0):
+    
+    def default_simple_search(self, search, string, m = 0):
         if not search:
             return True
         if self.case_sensitive:
