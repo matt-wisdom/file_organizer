@@ -135,7 +135,7 @@ def run(app_class=DefaultOrganizer, **kwargs):
         generate_files_function = getattr(app, 'walk_dir_recursive', getattr(app, 'default_walk_dir_recursive'))
     else:
         generate_files_function = getattr(app, 'walk_dir', getattr(app, 'default_walk_dir'))
-    print('Finding...')
+    print('[INFO] Finding...')
     for file in generate_files_function(working_dir, extensions=fileextensions):
         if match_function(search, file, min_ratio):
             match_count += 1
@@ -176,8 +176,8 @@ def run(app_class=DefaultOrganizer, **kwargs):
         app.default_write_action_log()
     except Exception as e:
         print("[!!!] Could not write to action log: "+str(e))
-    print("Finished")
-    print("Matches-%d items / Operations-%d operations"%(match_count, operations_count))
+    print("[INFO] Finished")
+    print("[INFO] Matches-%d items / Operations-%d operations"%(match_count, operations_count))
 
 def donothing():
     pass
@@ -258,7 +258,7 @@ if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
-        print("Tidying up...")
+        print("[INFO] Tidying up...")
         if app.reversible:
             try:
             	app.default_write_action_log()
