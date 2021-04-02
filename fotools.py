@@ -172,7 +172,6 @@ def run(app_class=DefaultOrganizer, **kwargs):
                     else:
                         action_function(file, action=action)
                         operations_count += 1
-    print("Here")
     try:
         app.default_write_action_log()
     except Exception as e:
