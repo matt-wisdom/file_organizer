@@ -4,8 +4,6 @@ import os.path as pth
 import sys
 import itertools
 import importlib
-#import hashlib
-#import random
 import marshal
 import shutil
 import time
@@ -80,9 +78,6 @@ class DefaultOrganizer:
         log('Finished writing to log.')
 
     def default_add_to_log(self, action, old, new):
-        # hsh = hashlib.md5()
-        # data = str(random.randrange(100000000, 999999999))
-        # hsh.update(data.encode())
         name = str(time.time()) # Stores action list with timestamp key
         if pth.isdir(pth.abspath(new)):
             fname = pth.split(old)[1] # Get filename to add to log
@@ -384,7 +379,7 @@ class DefaultOrganizer:
 
 
     @staticmethod
-    def default_fuzzy_search(search, string, min_ratio=70):
+    def default_fuzzy_search(search, string, min_ratio = 70):
         """
             Levenshtein fuzzy search 
         """
@@ -396,10 +391,10 @@ class DefaultOrganizer:
             return True if ratio >= min_ratio else False
 
     @staticmethod
-    def default_simple_search(search, string, m=0, case_sensitive=False):
+    def default_simple_search(search, string, m = 0):
         if not search:
             return True
-        if case_sensitive:
+        if self.case_sensitive:
             i = re.search(search, string)
         else:
             i = re.search(search, string, re.I)
