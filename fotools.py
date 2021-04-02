@@ -42,7 +42,7 @@ irreversibilityhelp = """Disable reversibility i.e action are not written to act
 
 reversehelp = """ Reverse last actions from actions log. """
 
-opcounthelp = "Specifies the number of operations to carry out."
+opcounthelp = "Specifies the maximum number of operations to carry out."
 
 tsstarthelp = """Reverse operations that where carried out on or after this timestamp.
 				 If reverse-timestamp-stop is specified, then operations carried out between reverse-timestamp-start and 
@@ -189,7 +189,7 @@ def main():
     parser.add_argument("-e", "--extension", action="store", dest="extension", help=extension_help)
     parser.add_argument("-d", "--directory", help="The directory to work on.", action="store", dest="directory", default=".")
     parser.add_argument('-z', "--destination-directory", action="store", dest='destination', help="Target directory for file operations.", default='.')
-    parser.add_argument('-m', '--min-levenshtein-ratio', type=int, action='store', dest='min_ratio', default=70, help=min_levenshtein_help)
+    parser.add_argument('-m', '--min-levenshtein-ratio', type=int, action='store', dest='min_ratio', default=75, help=min_levenshtein_help)
     parser.add_argument('-b', '--groups', type=int, action='store', dest='groups', default=5, help=groups_help)
     parser.add_argument('-n', '--nomatchdir', action='store', dest='nomatchdir', help=nomatchdir_help)
     parser.add_argument('-a', '--action', action='store', dest='action', default="print", help=action_help)
