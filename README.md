@@ -35,8 +35,9 @@ optional arguments:
                         directory based on initials of filenames (used with
                         the -i or --initials arguments) .
   -n NOMATCHDIR, --nomatchdir NOMATCHDIR
-                        Directory to copy or move files to if no match is
-                        found. Defaults to ignore. This program allows you to
+                        Directory to copy or move files to if it does not  
+                        match the search parameters.
+                        Defaults to ignore. This program allows you to
                         use [:dd:] to reference the directory matched files
                         are moved to (specified with -d or --destination-
                         directory argument). So the move all unmatched files
