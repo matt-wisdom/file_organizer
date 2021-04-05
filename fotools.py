@@ -30,7 +30,6 @@
 # OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, 
 # EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-
 import os
 import sys
 import os.path as pth
@@ -110,7 +109,6 @@ def parse_extension(extension):
                 log_err("Could not find extension class in " + extension)
         except:
             log_err("Could not load extension " + extension)
-
 
 def run(app_class=DefaultOrganizer, **kwargs):
     global app
@@ -214,7 +212,6 @@ def run(app_class=DefaultOrganizer, **kwargs):
 
 def donothing():
     pass
-
 
 def main():
     parser = argparse.ArgumentParser(description=desc)
