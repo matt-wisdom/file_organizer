@@ -37,7 +37,6 @@ import re
 import os.path as pth
 import sys
 import itertools
-import importlib
 import marshal
 import shutil
 import time
@@ -62,10 +61,12 @@ class DefaultOrganizer:
                'Others':[]
             }
 
-    ext_type = {'txt':'Text File', 'py':'Python Source Files', 'c': 'C Source Files', 'css':'CSS Files', 'csv':'CSV Files', 'doc': 'Microsoft Word Documents', 'docx': 'Microsoft Word Documents',
-        'js': 'Javascript Source Files', 'json': 'JSON Files', 'php': 'PHP Files', 'ppt': 'PowerPoint Presentations', 'pptx': 'PowerPoint Presentations', 'odp': 'OpenDocument Presentations', 
-        'rtf': 'Rich Text Files', 'sh' : 'Bourne Shell Scripts', 'svg': 'Scalable Vector Graphics Files', 'go':'GO Source Files', 'pl': 'Perl Source Files',
-        'java': 'Java Source Files', 'cs': 'C# Source Files', 'htm': 'HTML File', 'html': 'HTML File', 'xhtml': 'XHTML File'
+    ext_type = {'txt':'Text File', 'py':'Python Source Files', 'c': 'C Source Files', 'css':'CSS Files', 'csv':'CSV Files',
+                'doc': 'Microsoft Word Documents', 'docx': 'Microsoft Word Documents', 'js': 'Javascript Source Files', 
+                'json': 'JSON Files', 'php': 'PHP Files', 'ppt': 'PowerPoint Presentations', 'pptx': 'PowerPoint Presentations', 
+                'odp': 'OpenDocument Presentations', 'rtf': 'Rich Text Files', 'sh' : 'Bourne Shell Scripts', 'svg': 'Scalable Vector Graphics Files',
+                'go':'GO Source Files', 'pl': 'Perl Source Files', 'java': 'Java Source Files', 'cs': 'C# Source Files', 'htm': 'HTML File', 'html': 'HTML File',
+                'xhtml': 'XHTML File'
         }
 
     def __init__(self, reversible=True, reverse=False, action_log = "action_log", reverse_count=None, reversetimerangestart=None, 
@@ -99,8 +100,6 @@ class DefaultOrganizer:
             reverse_method()
             sys.exit()
 
-
-
     def default_write_action_log(self):
         if not self.reversible:
             log("[!!!] Writing action log to disk...")
@@ -129,7 +128,6 @@ class DefaultOrganizer:
             ft = filetype.guess(i)
             ft_list.append((ft.extension, ft.mime))
         return ft_list
-
     
     def default_get_more_types(self, filename):
         """
@@ -155,7 +153,6 @@ class DefaultOrganizer:
                 length += 1
                 names = itertools.combinations_with_replacement(chars, length)
 
-
     def default_gen_new_name_combination(self, filename):
         """
         Generate new name from the default_gen_new_names generator function
@@ -164,9 +161,6 @@ class DefaultOrganizer:
             self.names = self.default_gen_new_names()
         ext = pth.splitext(filename)[1]
         return next(self.names)+ext
-
-
-
 
     def default_gen_new_name_regex(self, filename, regexp):
         """
@@ -205,7 +199,6 @@ class DefaultOrganizer:
                 return pth.join(destination_dir, i)
         return nomatchdir
 
-    
     def default_generate_destination_type(self, filename, destination_dir='.', groups=5, nomatchdir=''):
         """
             Generates directory based on file type and returns nomatchpath for unknown types
@@ -272,7 +265,6 @@ class DefaultOrganizer:
                 if count >= self.reverse_count:
                     return
 
-
     def default_generate_groups(self, groups, sep_nums):
         """
         Generates a dictionary of characters and their appropriate groups where a group is of the format
@@ -305,8 +297,7 @@ class DefaultOrganizer:
 
                 for j in nums[i+groups-1:]:
                     self.groups[j] = nums[i+groups-1]+'-'+nums[len(nums)-1]
-
-
+                    
     def default_generate_destination_alphabetic(self, path, groups=5, destination_dir='.', sep_nums=True, nomatchpath=''):
         """
 
@@ -367,7 +358,6 @@ class DefaultOrganizer:
                         continue
                 yield pth.join(root, name)
 
-    
     def default_walk_dir(self, dir=".", extensions=''):
         """
             Return the content of 'dir'
@@ -407,9 +397,6 @@ class DefaultOrganizer:
         log("[!!!] Renaming %s to %s."%(from_, to), self.newline)
         return os.rename(from_, to)
 
-
-
-
     @staticmethod
     def default_fuzzy_search(search, string, min_ratio = 70):
         """
@@ -421,8 +408,7 @@ class DefaultOrganizer:
             ratio = fuzz.partial_token_set_ratio(search, string)
             
             return True if ratio >= min_ratio else False
-
-    
+ 
     def default_simple_search(self, search, string, m = 0):
         if not search:
             return True
@@ -431,4 +417,3 @@ class DefaultOrganizer:
         else:
             i = re.search(search, string, re.I)
         return True if i else False
-
