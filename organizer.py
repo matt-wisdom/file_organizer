@@ -179,7 +179,10 @@ class DefaultOrganizer:
             regexp = re.match(regexp, filename)
         else: 
             regexp = re.match(regexp, filename, re.I|re.M)
-        new_filename = regexp.group().lower() + ext
+        try:
+            new_filename = regexp.group().lower() + ext
+        except:
+            return
         return new_filename
 
     def default_generate_destination_group(self, filename, destination_dir='.', groups=5, nomatchdir=""):
