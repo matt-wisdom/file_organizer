@@ -57,8 +57,8 @@ groups_help = """Number of groups to divide each class (alphas and nums) will be
 initials of filenames (used with the -i or --initials arguments) ."""
 
 nomatchdir_help = """Directory to copy or move files to if no match is found. Defaults to ignore. This program allows you to use [:dd:]
-to reference the directory matched files are moved to (specified with -d or --destination-directory argument). So the move all unmatched files
-to a folder named 'unknown' in the target directory pass '[:dd:]/unknown' as the value to this argument.
+		     to reference the directory matched files are moved to (specified with -d or --destination-directory argument). So the move all unmatched files
+		     to a folder named 'unknown' in the target directory pass '[:dd:]/unknown' as the value to this argument.
 """
 
 action_help = """The action to carry out on matched files, valid options are: print, move, copy_rename, rename, copy.  Defaults to print.
@@ -67,7 +67,8 @@ action_help = """The action to carry out on matched files, valid options are: pr
 initials_help = """Use initials of filenames to generate groups. Directories are created with the group name as destination for file operations."""
 
 group_help = """Generate destinations for files using in-built groups. The groups are defined in 
-[organizer.py](https://github.com/cRyp70s/file_organizer_tools/blob/main/organizer.py)"""
+		organizer.py
+		"""
 
 genregexphelp = """Used to generate new names for matched files based on strings extracted from filenames using regular expressions."""
 
@@ -277,7 +278,7 @@ def main():
     nomatchdir = '' if not args.nomatchdir else args.nomatchdir
 
     run_args = {
-    			'search':args.search_string, 'nomatchdir': args.nomatchdir, 'directory': args.directory,
+    		'search':args.search_string, 'nomatchdir': args.nomatchdir, 'directory': args.directory,
                 'destination_dir': args.destination, 'min_ratio': args.min_ratio, 'simple_match': args.simple_match, 
                 'recursive' : args.recursive, 'extension': args.extension, 'd_gen': dgen, 'groups':args.groups, 
                 'action': args.action, 'name_gen': name_gen, 'regex': regex, 'fileextensions': args.fileextensions,
