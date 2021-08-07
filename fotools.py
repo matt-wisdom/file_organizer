@@ -64,7 +64,10 @@ to a folder named 'unknown' in the target directory pass '[:dd:]/unknown' as the
 action_help = """The action to carry out on matched files, valid options are: print, move, copy_rename, rename, copy.  Defaults to print.
 """
 
-initials_help = """Use initials of filenames to generate groups of the for 'a0-a1' where each group contains charaters or numbers from a0 through a1."""
+initials_help = """Use initials of filenames to generate groups. Directories are created with the group name as destination for file operations."""
+
+group_help = """Generate destinations for files using in-built groups. The groups are defined in 
+[organizer.py](https://github.com/cRyp70s/file_organizer_tools/blob/main/organizer.py)"""
 
 genregexphelp = """Used to generate new names for matched files based on strings extracted from filenames using regular expressions."""
 
