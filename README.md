@@ -75,7 +75,7 @@ optional arguments:
                         are created with the group name as destination for file
                         operations.
   -g, --group           Generate destinations for files using in-built groups. The groups are defined in 
-                        [organizer.py](https://github.com/cRyp70s/file_organizer_tools/blob/main/organizer.py)
+                        organizer.py
   -t, --type            Generate location for matched files by using their
                         filetype.
   -w, --case-sensitive  Makes regex filename generation case-sensitive
