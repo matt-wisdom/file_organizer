@@ -30,9 +30,9 @@ optional arguments:
                         minimun ratio that will be considered a match using
                         partial_set_ratio. Defaults to 75
   -b GROUPS, --groups GROUPS
-                        Number of groups to divide each class (alphas and
+                        Number of groups each class (alphas and
                         nums) will be divided into for generating destination
-                        directory based on initials of filenames (used with
+                        directory from the initials of filenames (used with
                         the -i or --initials arguments) .
   -n NOMATCHDIR, --nomatchdir NOMATCHDIR
                         Directory to copy or move files to if it does not  
@@ -71,9 +71,10 @@ optional arguments:
                         reversed
   -l, --simple-match    Simple string match.
   -f, --fuzz-match      Fuzzy string match.
-  -i, --initials        Use initials of filenames to generate groups of the
-                        for 'a0-a1' where each group contains charaters or
-                        numbers from a0 through a1.
+  -i, --initials        Use initials of filenames to generate groups. Directories
+                        are created with the group name as destination for file
+                        operations.
+                        
   -g, --group
   -t, --type            Generate location for matched files by using their
                         filetype.
