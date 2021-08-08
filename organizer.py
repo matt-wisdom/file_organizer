@@ -405,6 +405,7 @@ class DefaultOrganizer:
         """
             Levenshtein fuzzy search 
         """
+        string = pth.split(string)[1]
         if not search:
             return True
         if isinstance(search, str):
@@ -413,6 +414,7 @@ class DefaultOrganizer:
             return True if ratio >= min_ratio else False
  
     def default_simple_search(self, search, string, m = 0):
+        string = pth.split(string)[1]
         if not search:
             return True
         if self.case_sensitive:
