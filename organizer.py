@@ -367,6 +367,7 @@ class DefaultOrganizer:
         """
         content = os.listdir(dir)
         files = filter(lambda x: pth.isfile(pth.join(dir, x)), content)
+        files = [pth.join(dir, x) for x in files]
         for i in files:
             if extensions:
                 try:
