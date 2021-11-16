@@ -357,6 +357,7 @@ class DefaultOrganizer:
                         continue
                     if ext in extensions:
                         yield fname
+                        continue
                     else:
                         continue
                 yield pth.join(root, name)
@@ -376,6 +377,7 @@ class DefaultOrganizer:
                     continue
                 if ext in extensions:
                     yield i
+                    continue
                 else:
                     continue
             yield i
