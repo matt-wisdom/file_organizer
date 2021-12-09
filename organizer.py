@@ -176,9 +176,9 @@ class DefaultOrganizer:
         """
         filename, ext = pth.splitext(pth.split(filename)[1])
         if self.case_sensitive:
-            regexp = re.match(regexp, filename)
+            regexp = re.findall(regexp, filename)[0]
         else: 
-            regexp = re.match(regexp, filename, re.I|re.M)
+            regexp = re.findall(regexp, filename, re.I|re.M)[0]
         try:
             new_filename = regexp.group().lower() + ext
         except:
