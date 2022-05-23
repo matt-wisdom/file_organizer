@@ -51,12 +51,12 @@ def log(m, newline=False):
 class DefaultOrganizer:
     # Groups for sorting files by filetype/extension
 
-    groups = {'Source_Codes': ['py', 'html', 'htm', 'css', 'js', 'cpp', 'c', 'rb', 'pl', 'php', 'r', 'go', 'java'],
+    groups = {'Source_Codes': ['py', 'html', 'htm', 'css', 'js', 'cpp', 'c', 'rb', 'pl', 'php', 'r', 'go', 'java', 'ipynb'],
                'Images':['svg', 'png', 'jpg', 'jpx', 'gif', 'webp', 'cr2', 'tif', 'bmp', 'jxr', 'psd', 'ico', 'heic'],
                'Video': ['mp4', 'm4v', 'mkv', 'webm', 'mov', 'avi', 'wmv', 'mpg', 'flv', 'swf'],
                'Audio': ['mid', 'mp3', 'm4a', 'ogg', 'flac', 'wav', 'amr'],
                'Archives': ['zip', 'tar', 'rar', 'gz', 'bz2', '7z', 'xz', 'ar', 'deb', 'z', 'lz', 'exe', 'cab', 'pyc', 'jar'],
-               'Documents': ['pdf', 'docx', 'doc', 'ppt', 'pptx', 'epub', 'rtf', 'txt', 'ps'],
+               'Documents': ['pdf', 'docx', 'doc', 'ppt', 'pptx', 'epub', 'rtf', 'txt', 'ps', 'csv', 'odt'],
                'Fonts': ['woff', 'woff2', 'ttf', 'otf'],
                'Others':[]
             }
