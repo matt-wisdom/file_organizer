@@ -333,13 +333,13 @@ class DefaultOrganizer:
                 
                 return shutil.copy2(from_, to)
             except Exception as e:
-                print("[!!!] Could not copy %s to %s: %s"%(from_, to, e))
+                log("[!!!] Could not copy %s to %s: %s"%(from_, to, e))
                 return -1
         log("Moving  %s to %s."%(from_, to), self.newline)
         try:
             return shutil.move(from_, to)
         except Exception as e:
-            print("[!!!] Could not move %s to %s: %s"%(from_, to, e))
+            log("[!!!] Could not move %s to %s: %s"%(from_, to, e))
             return -1
 
 
