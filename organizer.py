@@ -51,12 +51,12 @@ def log(m, newline=False):
 class DefaultOrganizer:
     # Groups for sorting files by filetype/extension
 
-    groups = {'Source_Codes': ['py', 'html', 'htm', 'css', 'js', 'cpp', 'c', 'rb', 'pl', 'php', 'r', 'go', 'java', 'ipynb'],
+    groups = {'Source_Codes': ['py', 'html', 'htm', 'css', 'js', 'cpp', 'c', 'rb', 'pl', 'php', 'r', 'go', 'java'],
                'Images':['svg', 'png', 'jpg', 'jpx', 'gif', 'webp', 'cr2', 'tif', 'bmp', 'jxr', 'psd', 'ico', 'heic'],
                'Video': ['mp4', 'm4v', 'mkv', 'webm', 'mov', 'avi', 'wmv', 'mpg', 'flv', 'swf'],
                'Audio': ['mid', 'mp3', 'm4a', 'ogg', 'flac', 'wav', 'amr'],
                'Archives': ['zip', 'tar', 'rar', 'gz', 'bz2', '7z', 'xz', 'ar', 'deb', 'z', 'lz', 'exe', 'cab', 'pyc', 'jar'],
-               'Documents': ['pdf', 'docx', 'doc', 'ppt', 'pptx', 'epub', 'rtf', 'txt', 'ps', 'csv', 'odt'],
+               'Documents': ['pdf', 'docx', 'doc', 'ppt', 'pptx', 'epub', 'rtf', 'txt', 'ps'],
                'Fonts': ['woff', 'woff2', 'ttf', 'otf'],
                'Others':[]
             }
@@ -333,13 +333,13 @@ class DefaultOrganizer:
                 
                 return shutil.copy2(from_, to)
             except Exception as e:
-                log("[!!!] Could not copy %s to %s: %s"%(from_, to, e))
+                print("[!!!] Could not copy %s to %s: %s"%(from_, to, e))
                 return -1
         log("Moving  %s to %s."%(from_, to), self.newline)
         try:
             return shutil.move(from_, to)
         except Exception as e:
-            log("[!!!] Could not move %s to %s: %s"%(from_, to, e))
+            print("[!!!] Could not move %s to %s: %s"%(from_, to, e))
             return -1
 
 

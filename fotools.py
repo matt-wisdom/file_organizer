@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python3.9
 # -*- coding: utf-8 -*-
 
 
@@ -34,6 +34,7 @@ import os
 import sys
 import os.path as pth
 import argparse
+import importlib
 from organizer import DefaultOrganizer
 
 extension = []
@@ -96,23 +97,28 @@ def parse_extension(extension):
     """
 
     if ':' in extension:
+        print("Parsing")
+        import os, sys
+        sys.path.append(os.getcwd())
+        print(os.getcwd())
         #Parser for when custom class name is used for extension in the format 'modulename:class_name'
         module, classname = extension.split(":") 
         try:
-            imported = importlib.import_module(module)
+            print(module)
+            imported = importlib.__import__(module)
             return getattr(imported, classname)
-        except:
-            log_err("Could not load extension " + extension)
+        except Exception as e:
+            print("Could not load extension ", extension, e)
     # Default extension class name is 'Extension'
     else:
         try:
             imported = importlib.import_module(extension)
             try:
                 return getattr(imported, 'Extension')
-            except:
-                log_err("Could not find extension class in " + extension)
-        except:
-            log_err("Could not load extension " + extension)
+            except Exception as e:
+                print("Could not find extension class in ", extension, e)
+        except Exception as e:
+            print("Could not load extension 2", extension, e)
 
 def run(app_class=DefaultOrganizer, **kwargs):
     global app
@@ -123,7 +129,8 @@ def run(app_class=DefaultOrganizer, **kwargs):
     regex = kwargs.get('regex')
     rtstop = kwargs.get('rtstop')
     if kwargs.get('extension'):
-        app_class = parse_extension(extension)
+        print(kwargs.get('extension'))
+        app_class = parse_extension(kwargs.get('extension'))
     action_log = kwargs.get('action_log')
     reverse = kwargs.get('reverse')
     if reverse:
