@@ -35,6 +35,7 @@ import os
 import re
 import os.path as pth
 import sys
+import logging
 import itertools
 import marshal
 import shutil
@@ -42,6 +43,7 @@ import time
 from fuzzywuzzy import fuzz
 import filetype
 
+logger = logging.getLogger(__name__)
 
 def log(m, newline=False):
     print(m)
@@ -164,7 +166,7 @@ class DefaultOrganizer:
         self.reversetimerangestop = reversetimerangestop
         if reverse:
             if not pth.exists(self.action_log_file):
-                log("[!!!] Could not locate action log file for ")
+                logger.error("Could not locate action log file for ")
                 raise KeyboardInterrupt()
         if reversible:
             try:
@@ -187,13 +189,13 @@ class DefaultOrganizer:
 
     def default_write_action_log(self):
         if not self.reversible:
-            log("[!!!] Writing action log to disk...")
+            logger.info("Writing action log to disk...")
             return
-        log("Writing to action log.")
+        logger.info("Writing to action log.")
         content = marshal.dumps(self.action_logs)
         self.action_log_obj.write(content)
         self.action_log_obj.flush()
-        log("Finished writing to log.")
+        logger.info("Finished writing to log.")
 
     def default_add_to_log(self, action, old, new):
         name = str(time.time())  # Stores action list with timestamp key
@@ -318,8 +320,8 @@ class DefaultOrganizer:
         elif action == "print":
             log(from_, self.newline)
         else:
-            log(
-                "[!!!] Action %s is invalid. Valid options are: copy, rename, copy_rename, move, print"
+            logger.exception(
+                " Action %s is invalid. Valid options are: copy, rename, copy_rename, move, print"
             )
             raise KeyboardInterrupt
         if (
@@ -428,13 +430,13 @@ class DefaultOrganizer:
 
                 return shutil.copy2(from_, to)
             except Exception as e:
-                print("[!!!] Could not copy %s to %s: %s" % (from_, to, e))
+                logger.exception(" Could not copy %s to %s: %s" % (from_, to, e))
                 return -1
         log("Moving  %s to %s." % (from_, to), self.newline)
         try:
             return shutil.move(from_, to)
         except Exception as e:
-            print("[!!!] Could not move %s to %s: %s" % (from_, to, e))
+            logger.exception("Could not move %s to %s: %s" % (from_, to, e))
             return -1
 
     def default_walk_dir_recursive(self, dir=".", extensions=""):
@@ -492,8 +494,8 @@ class DefaultOrganizer:
                 log("Copying %s to %s." % (from_, to), self.newline)
                 return shutil.copy2(from_, to)
             except:
-                log("[!!!] Renaming %s to %s failed." % (from_, to), self.newline)
-        log("[!!!] Renaming %s to %s." % (from_, to), self.newline)
+                logger.exception("Renaming %s to %s failed." % (from_, to), self.newline)
+        log("Renaming %s to %s." % (from_, to), self.newline)
         return os.rename(from_, to)
 
     @staticmethod
