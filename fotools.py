@@ -35,6 +35,10 @@ import sys
 import os.path as pth
 import argparse
 import importlib
+import logging
+
+logger = logging.getLogger(__name__)
+
 from organizer import DefaultOrganizer
 
 extension = []
@@ -209,7 +213,7 @@ def run(app_class=DefaultOrganizer, **kwargs):
         generate_files_function = getattr(
             app, "walk_dir", getattr(app, "default_walk_dir")
         )
-    print("[INFO] Finding...")
+    logger.info("Finding...")
     for file in generate_files_function(working_dir, extensions=fileextensions):
         if match_function(search, file, min_ratio):
             match_count += 1
@@ -268,10 +272,10 @@ def run(app_class=DefaultOrganizer, **kwargs):
     try:
         app.default_write_action_log()
     except Exception as e:
-        print("[!!!] Could not write to action log: " + str(e))
-    print("[INFO] Finished")
-    print(
-        "[INFO] Matches-%d items / Operations-%d operations"
+        logger.exception("[!!!] Could not write to action log: " + str(e))
+    logger.info("Finished")
+    logger.info(
+        " Matches-%d items / Operations-%d operations"
         % (match_count, operations_count)
     )
 
