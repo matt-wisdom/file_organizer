@@ -444,7 +444,7 @@ class DefaultOrganizer:
             except Exception as e:
                 logger.exception("Could not copy %s to %s: %s"
                                  % (from_, to, e))
-                return -1
+                raise Exception(e)
         logger.info("Moving  %s to %s." % (from_, to))
         try:
             return shutil.move(from_, to)
