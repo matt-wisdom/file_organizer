@@ -448,6 +448,7 @@ class DefaultOrganizer:
         try:
             return shutil.move(from_, to)
         except Exception as e:
+            raise Exception("Nope")
             logger.exception("Could not move %s to %s: %s" % (from_, to, e))
             return -1
 
