@@ -411,7 +411,10 @@ def test_default_action_invalid():
 def create_reverse_files():
     base = samples_base / "reverse"
     paths = []
-    os.mkdir(str(base / "to"))
+    try:
+        os.mkdir(str(base / "to"))
+    except:
+        pass
     for i in ["21", "33", "52"]:
         path = base / f"{i}.txt"
         with open(path, "w") as f:
