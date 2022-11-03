@@ -303,8 +303,7 @@ class DefaultOrganizer:
         elif action == "copy_rename":
             out = self.default_rename(from_, to, True)
         elif action == "move":
-            out = self.default_copy(from_, to, True, True)
-            raise Exception(out)
+            out = self.default_copy(from_, to, True)
         elif action == "print":
             print(from_)
             if self.newline:
@@ -444,13 +443,12 @@ class DefaultOrganizer:
             except Exception as e:
                 logger.exception("Could not copy %s to %s: %s"
                                  % (from_, to, e))
-                raise Exception(e)
+                return -1
         logger.info("Moving  %s to %s." % (from_, to))
         try:
             return shutil.move(from_, to)
         except Exception as e:
             logger.exception("Could not move %s to %s: %s" % (from_, to, e))
-            raise Exception(e)
             return -1
 
     def default_walk_dir_recursive(self, dir=".", extensions=""):

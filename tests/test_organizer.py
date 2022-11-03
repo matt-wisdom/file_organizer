@@ -46,287 +46,287 @@ gen_new = [
 ]
 
 
-# def test_default_write_action_log():
-#     log = {"Random": "Data"}
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     org.action_log_obj = io.BytesIO()
-#     org.action_logs = log
-#     assert org.default_write_action_log() == True
-#     org.action_log_obj.seek(0)
-#     assert log == marshal.loads(org.action_log_obj.read())
+def test_default_write_action_log():
+    log = {"Random": "Data"}
+    org = organizer.DefaultOrganizer(reversible=True)
+    org.action_log_obj = io.BytesIO()
+    org.action_logs = log
+    assert org.default_write_action_log() == True
+    org.action_log_obj.seek(0)
+    assert log == marshal.loads(org.action_log_obj.read())
 
-#     org = organizer.DefaultOrganizer(reversible=False)
-#     org.action_log_obj = io.BytesIO()
-#     org.action_logs = log
-#     assert org.default_write_action_log() == False
-#     org.action_log_obj.seek(0)
-#     try:
-#         marshal.loads(org.action_log_obj.read())
-#     except EOFError:
-#         assert True
-#         return
-#     assert False
-
-
-# def test_default_add_to_log():
-#     try:
-#         os.remove("action_log")
-#     except Exception:
-#         pass
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     data = ["write", "old", "new"]
-#     org.action_logs = {}
-#     org.default_add_to_log(*data)
-#     key = list(org.action_logs.keys())[0]
-#     assert org.action_logs[key] == [data[0], os.path.abspath(data[1]), data[2]]
-
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     from_ = (samples_base / "img.png").absolute()
-#     org.default_add_to_log("print", from_, samples_base)
-#     key = list(org.action_logs.keys())[0]
-#     assert org.action_logs[key] == ["print", str(from_), str(from_)]
+    org = organizer.DefaultOrganizer(reversible=False)
+    org.action_log_obj = io.BytesIO()
+    org.action_logs = log
+    assert org.default_write_action_log() == False
+    org.action_log_obj.seek(0)
+    try:
+        marshal.loads(org.action_log_obj.read())
+    except EOFError:
+        assert True
+        return
+    assert False
 
 
-# @pytest.mark.parametrize("file", samples_files)
-# def test_default_get_file_type(file):
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     type = org.default_get_file_type(file)
-#     assert samples_files_type[file] == type
+def test_default_add_to_log():
+    try:
+        os.remove("action_log")
+    except Exception:
+        pass
+    org = organizer.DefaultOrganizer(reversible=True)
+    data = ["write", "old", "new"]
+    org.action_logs = {}
+    org.default_add_to_log(*data)
+    key = list(org.action_logs.keys())[0]
+    assert org.action_logs[key] == [data[0], os.path.abspath(data[1]), data[2]]
+
+    org = organizer.DefaultOrganizer(reversible=True)
+    from_ = (samples_base / "img.png").absolute()
+    org.default_add_to_log("print", from_, samples_base)
+    key = list(org.action_logs.keys())[0]
+    assert org.action_logs[key] == ["print", str(from_), str(from_)]
 
 
-# def test_default_get_file_type_many():
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     type = org.default_get_file_type(samples_files)
-#     assert type == [("mp4", "video/mp4"), ("png", "image/png"), ("txt", "Text File")]
+@pytest.mark.parametrize("file", samples_files)
+def test_default_get_file_type(file):
+    org = organizer.DefaultOrganizer(reversible=True)
+    type = org.default_get_file_type(file)
+    assert samples_files_type[file] == type
 
 
-# def test_default_gen_new_names():
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     org.action_logs = {}
-#     out = []
-#     i = 0
-#     for j in org.default_gen_new_names("ABNASJSS"):
-#         out.append(j)
-#         if i == 20:
-#             break
-#         i += 1
-#     assert out == gen_new
+def test_default_get_file_type_many():
+    org = organizer.DefaultOrganizer(reversible=True)
+    type = org.default_get_file_type(samples_files)
+    assert type == [("mp4", "video/mp4"), ("png", "image/png"), ("txt", "Text File")]
 
 
-# def test_default_gen_new_name_combination():
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     for i in range(5):
-#         assert org.default_gen_new_name_combination("example.pdf") == f"{i}.pdf"
+def test_default_gen_new_names():
+    org = organizer.DefaultOrganizer(reversible=True)
+    org.action_logs = {}
+    out = []
+    i = 0
+    for j in org.default_gen_new_names("ABNASJSS"):
+        out.append(j)
+        if i == 20:
+            break
+        i += 1
+    assert out == gen_new
 
 
-# @pytest.mark.parametrize(
-#     ["filename", "regexp", "expected"],
-#     [
-#         [
-#             "sitemoviez.com-foobar-S01-E01.mp4",
-#             "(?<=viez.com-)(.*)",
-#             "foobar-S01-E01.mp4",
-#         ],
-#         ["randomfile_websiteA.pdf", "(.*)(?=_websiteA)", "randomfile.pdf"],
-#         [
-#             "prefixA_randomfile_websiteA.pdf",
-#             "(?<=prefixA_)(.*)(?=_websiteA)",
-#             "randomfile.pdf",
-#         ],
-#     ],
-# )
-# def test_default_gen_new_name_regex(filename, regexp, expected):
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     assert org.default_gen_new_name_regex(filename, regexp) == expected
-
-#     org = organizer.DefaultOrganizer(reversible=True, case_sensitive=True)
-#     assert org.default_gen_new_name_regex(filename, regexp) == expected
+def test_default_gen_new_name_combination():
+    org = organizer.DefaultOrganizer(reversible=True)
+    for i in range(5):
+        assert org.default_gen_new_name_combination("example.pdf") == f"{i}.pdf"
 
 
-# @pytest.mark.parametrize("file", samples_files)
-# def test_default_generate_destination_group(file):
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     assert samples_files_groups[file] == org.default_generate_destination_group(file)
+@pytest.mark.parametrize(
+    ["filename", "regexp", "expected"],
+    [
+        [
+            "sitemoviez.com-foobar-S01-E01.mp4",
+            "(?<=viez.com-)(.*)",
+            "foobar-S01-E01.mp4",
+        ],
+        ["randomfile_websiteA.pdf", "(.*)(?=_websiteA)", "randomfile.pdf"],
+        [
+            "prefixA_randomfile_websiteA.pdf",
+            "(?<=prefixA_)(.*)(?=_websiteA)",
+            "randomfile.pdf",
+        ],
+    ],
+)
+def test_default_gen_new_name_regex(filename, regexp, expected):
+    org = organizer.DefaultOrganizer(reversible=True)
+    assert org.default_gen_new_name_regex(filename, regexp) == expected
+
+    org = organizer.DefaultOrganizer(reversible=True, case_sensitive=True)
+    assert org.default_gen_new_name_regex(filename, regexp) == expected
 
 
-# @pytest.mark.parametrize("file", samples_files + [samples_base / "action_log"])
-# def test_default_generate_destination_group_nomatch(file):
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     nomatchdir = "nomatch"
-#     assert samples_files_groups.get(
-#         file, nomatchdir
-#     ) == org.default_generate_destination_group(file, nomatchdir=nomatchdir)
+@pytest.mark.parametrize("file", samples_files)
+def test_default_generate_destination_group(file):
+    org = organizer.DefaultOrganizer(reversible=True)
+    assert samples_files_groups[file] == org.default_generate_destination_group(file)
 
 
-# @pytest.mark.parametrize("file", samples_files + [samples_base / "action_log"])
-# def test_default_generate_destination_group_nomatch_dd(file):
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     nomatchdir = pathlib.Path("[:dd:]") / "nomatch"
-#     assert f"{sep}home" + samples_files_groups.get(file, f"{sep}nomatch").replace(
-#         ".", ""
-#     ) == org.default_generate_destination_group(
-#         file, f"{sep}home", nomatchdir=str(nomatchdir)
-#     )
+@pytest.mark.parametrize("file", samples_files + [samples_base / "action_log"])
+def test_default_generate_destination_group_nomatch(file):
+    org = organizer.DefaultOrganizer(reversible=True)
+    nomatchdir = "nomatch"
+    assert samples_files_groups.get(
+        file, nomatchdir
+    ) == org.default_generate_destination_group(file, nomatchdir=nomatchdir)
 
 
-# def test_default_copy():
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     to = samples_base / "4.txt"
-#     from_ = samples_base / "1.txt"
-#     assert org.default_copy(from_, to) == to
-#     assert to.exists() and from_.exists()
-
-#     assert org.default_copy(to, from_, move=True) == -1
-#     assert org.default_copy(to, from_, move=True, overwrite=True) == from_
-#     assert to.exists() is False
-
-#     assert org.default_copy(from_, samples_base, move=True, overwrite=True) == str(
-#         from_
-#     )
-#     try:
-#         assert org.default_copy("~/does-not-exist", ".", overwrite=True) == -1
-#         assert (
-#             org.default_copy("~/does-not-exist", ".", move=True, overwrite=True) == -1
-#         )
-#     except FileNotFoundError:
-#         pass
+@pytest.mark.parametrize("file", samples_files + [samples_base / "action_log"])
+def test_default_generate_destination_group_nomatch_dd(file):
+    org = organizer.DefaultOrganizer(reversible=True)
+    nomatchdir = pathlib.Path("[:dd:]") / "nomatch"
+    assert f"{sep}home" + samples_files_groups.get(file, f"{sep}nomatch").replace(
+        ".", ""
+    ) == org.default_generate_destination_group(
+        file, f"{sep}home", nomatchdir=str(nomatchdir)
+    )
 
 
-# def test_default_rename():
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     to = samples_base / "rename2.txt"
-#     from_ = samples_base / "rename.txt"
-#     assert org.default_rename(from_, to) == to
-#     assert org.default_rename(to, from_, copy=True) == from_
-#     assert to.exists() and from_.exists()
+def test_default_copy():
+    org = organizer.DefaultOrganizer(reversible=True)
+    to = samples_base / "4.txt"
+    from_ = samples_base / "1.txt"
+    assert org.default_copy(from_, to) == to
+    assert to.exists() and from_.exists()
 
-#     assert org.default_rename(to, from_) == -1
-#     assert org.default_rename(to, from_, overwrite=True) == from_
+    assert org.default_copy(to, from_, move=True) == -1
+    assert org.default_copy(to, from_, move=True, overwrite=True) == from_
+    assert to.exists() is False
 
-#     try:
-#         org.default_rename("~/Doentt", ".", overwrite=True, copy=True)
-#         assert False
-#     except AssertionError:
-#         assert False
-#     except Exception as e:
-#         pass
-
-
-# fuzzy_expected = {"filerandom": True, "filer": False, "": True}
-
-
-# @pytest.mark.parametrize(
-#     ["search", "string"],
-#     [["filerandom", "file_random.jpg"], ["filer", "pureos.iso"], ["", "file"]],
-# )
-# def test_default_fuzzysearch(search, string):
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     assert org.default_fuzzy_search(search, string) is fuzzy_expected[search]
+    assert org.default_copy(from_, samples_base, move=True, overwrite=True) == str(
+        from_
+    )
+    try:
+        assert org.default_copy("~/does-not-exist", ".", overwrite=True) == -1
+        assert (
+            org.default_copy("~/does-not-exist", ".", move=True, overwrite=True) == -1
+        )
+    except FileNotFoundError:
+        pass
 
 
-# simple_expected = {"filerandom": False, "pure": True, "": True}
+def test_default_rename():
+    org = organizer.DefaultOrganizer(reversible=True)
+    to = samples_base / "rename2.txt"
+    from_ = samples_base / "rename.txt"
+    assert org.default_rename(from_, to) == to
+    assert org.default_rename(to, from_, copy=True) == from_
+    assert to.exists() and from_.exists()
+
+    assert org.default_rename(to, from_) == -1
+    assert org.default_rename(to, from_, overwrite=True) == from_
+
+    try:
+        org.default_rename("~/Doentt", ".", overwrite=True, copy=True)
+        assert False
+    except AssertionError:
+        assert False
+    except Exception as e:
+        pass
 
 
-# @pytest.mark.parametrize(
-#     ["search", "string"],
-#     [["filerandom", "file_random.jpg"], ["pure", "pureos.iso"], ["", "dd"]],
-# )
-# def test_default_simplesearch(search, string):
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     assert org.default_simple_search(search, string) is simple_expected[search]
+fuzzy_expected = {"filerandom": True, "filer": False, "": True}
 
 
-# simple_expected_case = {"file": True, "Pure": False, "": True}
+@pytest.mark.parametrize(
+    ["search", "string"],
+    [["filerandom", "file_random.jpg"], ["filer", "pureos.iso"], ["", "file"]],
+)
+def test_default_fuzzysearch(search, string):
+    org = organizer.DefaultOrganizer(reversible=True)
+    assert org.default_fuzzy_search(search, string) is fuzzy_expected[search]
 
 
-# @pytest.mark.parametrize(
-#     ["search", "string"],
-#     [["file", "file_random.jpg"], ["Pure", "pureos.iso"], ["", "dd"]],
-# )
-# def test_default_simplesearch_case(search, string):
-#     org = organizer.DefaultOrganizer(reversible=True, case_sensitive=True)
-#     assert org.default_simple_search(search, string) is simple_expected_case[search]
+simple_expected = {"filerandom": False, "pure": True, "": True}
 
 
-# def test_default_walk_dir():
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     path = samples_base / "walk"
-#     assert set(org.default_walk_dir(path)) == {
-#         f"tests{sep}samples{sep}walk{sep}1.txt",
-#         f"tests{sep}samples{sep}walk{sep}vid.mp4",
-#         f"tests{sep}samples{sep}walk{sep}rename.txt",
-#         f"tests{sep}samples{sep}walk{sep}3.txt",
-#         f"tests{sep}samples{sep}walk{sep}action_log",
-#         f"tests{sep}samples{sep}walk{sep}2.txt",
-#         f"tests{sep}samples{sep}walk{sep}img.png",
-#     }
-#     assert set(org.default_walk_dir(path, extensions=["png"])) == {
-#         f"tests{sep}samples{sep}walk{sep}img.png",
-#     }
+@pytest.mark.parametrize(
+    ["search", "string"],
+    [["filerandom", "file_random.jpg"], ["pure", "pureos.iso"], ["", "dd"]],
+)
+def test_default_simplesearch(search, string):
+    org = organizer.DefaultOrganizer(reversible=True)
+    assert org.default_simple_search(search, string) is simple_expected[search]
 
 
-# def test_default_walk_dir_recursive():
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     path = samples_base / "inner"
-#     assert (
-#         len(
-#             set((org.default_walk_dir_recursive(path))).difference(
-#                 {
-#                     f"tests{sep}samples{sep}inner{sep}in_inner{sep}ty.txt",
-#                     f"tests{sep}samples{sep}inner{sep}in_inner{sep}img.png",
-#                     f"tests{sep}samples{sep}inner{sep}innerfile.txt",
-#                 }
-#             )
-#         )
-#         == 0
-#     )
-
-#     assert (
-#         len(
-#             set((org.default_walk_dir_recursive(path, "txt"))).difference(
-#                 {
-#                     f"tests{sep}samples{sep}inner{sep}in_inner{sep}ty.txt",
-#                     f"tests{sep}samples{sep}inner{sep}innerfile.txt",
-#                 }
-#             )
-#         )
-#         == 0
-#     )
+simple_expected_case = {"file": True, "Pure": False, "": True}
 
 
-# @pytest.mark.parametrize(
-#     "file", ["python.exe", "amazing.file", "whatever", "5.py", "."]
-# )
-# def test_default_generate_destination_alphabetic(file):
-#     expected = {
-#         "python.exe": "./p-t",
-#         "amazing.file": "./a-e",
-#         "whatever": "./u-y",
-#         "5.py": "./0-9",
-#         ".": "hello",
-#     }
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     assert (
-#         org.default_generate_destination_alphabetic(file, nomatchpath="hello")
-#         == expected[file]
-#     )
+@pytest.mark.parametrize(
+    ["search", "string"],
+    [["file", "file_random.jpg"], ["Pure", "pureos.iso"], ["", "dd"]],
+)
+def test_default_simplesearch_case(search, string):
+    org = organizer.DefaultOrganizer(reversible=True, case_sensitive=True)
+    assert org.default_simple_search(search, string) is simple_expected_case[search]
 
 
-# def test_default_generate_destination_alphabetic_sepnum():
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     assert org.default_generate_destination_alphabetic("5.py", sep_nums=True) == "./5-0"
+def test_default_walk_dir():
+    org = organizer.DefaultOrganizer(reversible=True)
+    path = samples_base / "walk"
+    assert set(org.default_walk_dir(path)) == {
+        f"tests{sep}samples{sep}walk{sep}1.txt",
+        f"tests{sep}samples{sep}walk{sep}vid.mp4",
+        f"tests{sep}samples{sep}walk{sep}rename.txt",
+        f"tests{sep}samples{sep}walk{sep}3.txt",
+        f"tests{sep}samples{sep}walk{sep}action_log",
+        f"tests{sep}samples{sep}walk{sep}2.txt",
+        f"tests{sep}samples{sep}walk{sep}img.png",
+    }
+    assert set(org.default_walk_dir(path, extensions=["png"])) == {
+        f"tests{sep}samples{sep}walk{sep}img.png",
+    }
 
 
-# def test_default_generate_destination_type():
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     assert org.default_generate_destination_type(samples_files[0]) == "./MP4 Files"
+def test_default_walk_dir_recursive():
+    org = organizer.DefaultOrganizer(reversible=True)
+    path = samples_base / "inner"
+    assert (
+        len(
+            set((org.default_walk_dir_recursive(path))).difference(
+                {
+                    f"tests{sep}samples{sep}inner{sep}in_inner{sep}ty.txt",
+                    f"tests{sep}samples{sep}inner{sep}in_inner{sep}img.png",
+                    f"tests{sep}samples{sep}inner{sep}innerfile.txt",
+                }
+            )
+        )
+        == 0
+    )
+
+    assert (
+        len(
+            set((org.default_walk_dir_recursive(path, "txt"))).difference(
+                {
+                    f"tests{sep}samples{sep}inner{sep}in_inner{sep}ty.txt",
+                    f"tests{sep}samples{sep}inner{sep}innerfile.txt",
+                }
+            )
+        )
+        == 0
+    )
 
 
-# def test_default_generate_groups():
-#     org = organizer.DefaultOrganizer(reversible=True)
-#     org.groups = ["5"]
-#     assert org.default_generate_groups(4, True) is None
-#     assert org.groups == ["5"]
+@pytest.mark.parametrize(
+    "file", ["python.exe", "amazing.file", "whatever", "5.py", "."]
+)
+def test_default_generate_destination_alphabetic(file):
+    expected = {
+        "python.exe": "./p-t",
+        "amazing.file": "./a-e",
+        "whatever": "./u-y",
+        "5.py": "./0-9",
+        ".": "hello",
+    }
+    org = organizer.DefaultOrganizer(reversible=True)
+    assert (
+        org.default_generate_destination_alphabetic(file, nomatchpath="hello")
+        == expected[file]
+    )
+
+
+def test_default_generate_destination_alphabetic_sepnum():
+    org = organizer.DefaultOrganizer(reversible=True)
+    assert org.default_generate_destination_alphabetic("5.py", sep_nums=True) == "./5-0"
+
+
+def test_default_generate_destination_type():
+    org = organizer.DefaultOrganizer(reversible=True)
+    assert org.default_generate_destination_type(samples_files[0]) == "./MP4 Files"
+
+
+def test_default_generate_groups():
+    org = organizer.DefaultOrganizer(reversible=True)
+    org.groups = ["5"]
+    assert org.default_generate_groups(4, True) is None
+    assert org.groups == ["5"]
 
 
 def create_action_files(count):
@@ -408,8 +408,19 @@ def test_default_action_invalid():
         pass
     assert os.path.isfile(paths[0])
 
+def create_reverse_files():
+    base = samples_base / "reverse"
+    paths = []
+    for i in ["21", "33", "52"]:
+        path = base / f"{i}.txt"
+        with open(path, "w") as f:
+            f.write("Whatever")
+        paths.append(path)
+    return paths
+
 
 def test_default_reverse_no_actionfile():
+    create_reverse_files()
     try:
         org = organizer.DefaultOrganizer(
             reversible=True, reverse=True, action_log="nofileexists"
@@ -420,6 +431,7 @@ def test_default_reverse_no_actionfile():
 
 
 def test_default_reverse_move():
+    create_reverse_files()
     os.remove("action_log")
     org = organizer.DefaultOrganizer(reversible=True)
     to = samples_base / "reverse" / "to"
@@ -428,7 +440,7 @@ def test_default_reverse_move():
         (to / fname).unlink()
     except:
         pass
-    org.default_action(samples_base / "reverse" / fname, to, "move")
+    org.default_action(samples_base / "reverse" / fname, to/fname, "move")
     org.default_write_action_log()
     assert (to / fname).exists()
 
@@ -438,6 +450,7 @@ def test_default_reverse_move():
 
 
 def test_default_reverse():
+    create_reverse_files()
     os.remove("action_log")
     org = organizer.DefaultOrganizer(reversible=True)
     to = samples_base / "reverse" / "to"
@@ -454,6 +467,7 @@ def test_default_reverse():
 
 
 def test_default_reverse_move_count():
+    create_reverse_files()
     os.remove("action_log")
     org = organizer.DefaultOrganizer(reversible=True)
     to = samples_base / "reverse" / "to"
@@ -476,6 +490,7 @@ def test_default_reverse_move_count():
 
 
 def test_default_reverse_timestampstart():
+    create_reverse_files()
     os.remove("action_log")
     org = organizer.DefaultOrganizer(reversible=True)
     to = samples_base / "reverse" / "to"
@@ -500,6 +515,7 @@ def test_default_reverse_timestampstart():
 
 
 def test_default_reverse_timestampend():
+    create_reverse_files()
     os.remove("action_log")
     org = organizer.DefaultOrganizer(reversible=True)
     to = samples_base / "reverse" / "to"
@@ -524,6 +540,7 @@ def test_default_reverse_timestampend():
 
 
 def test_default_reverse_timestamprange():
+    create_reverse_files()
     os.remove("action_log")
     org = organizer.DefaultOrganizer(reversible=True)
     to = samples_base / "reverse" / "to"
