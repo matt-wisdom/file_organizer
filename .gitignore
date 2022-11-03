@@ -47,3 +47,5 @@ dist/**
 *.nls.*.json
 *.i18n.json
 action_log
+.coverage
+htmlcov/
