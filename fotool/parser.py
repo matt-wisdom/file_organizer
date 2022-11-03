@@ -1,4 +1,5 @@
 import argparse
+
 from fotool.help import *
 
 parser = argparse.ArgumentParser(description=desc)
