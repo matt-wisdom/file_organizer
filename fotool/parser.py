@@ -43,7 +43,11 @@ parser.add_argument(
     help=groups_help,
 )
 parser.add_argument(
-    "-n", "--nomatchdir", action="store", dest="nomatchdir", help=nomatchdir_help
+    "-n",
+    "--nomatchdir",
+    action="store",
+    dest="nomatchdir",
+    help=nomatchdir_help
 )
 parser.add_argument(
     "-a",
@@ -127,10 +131,17 @@ search_type_group.add_argument(
 
 destination_generation_group = parser.add_mutually_exclusive_group()
 destination_generation_group.add_argument(
-    "-i", "--initials", action="store_true", dest="initials", help=initials_help
+    "-i",
+    "--initials",
+    action="store_true",
+    dest="initials",
+    help=initials_help
 )
 destination_generation_group.add_argument(
-    "-g", "--group", action="store_true", dest="group"
+    "-g",
+    "--group",
+    action="store_true",
+    dest="group"
 )
 destination_generation_group.add_argument(
     "-t",
@@ -157,9 +168,17 @@ name_generation_group.add_argument(
     help=gencombhelp,
 )
 name_generation_group.add_argument(
-    "-x", "--generate-regex", action="store", dest="gen_regex", help=genregexphelp
+    "-x",
+    "--generate-regex",
+    action="store",
+    dest="gen_regex",
+    help=genregexphelp
 )
 
 parser.add_argument(
-    "-y", "--file-types", action="store", dest="fileextensions", help=filetypehelp
+    "-y",
+    "--file-types",
+    action="store",
+    dest="fileextensions",
+    help=filetypehelp
 )

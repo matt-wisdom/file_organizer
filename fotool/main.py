@@ -16,12 +16,13 @@ def parse_extension(extension):
     """
 
     if ":" in extension:
-        # Parser for when custom class name is used for extension in the format 'modulename:class_name'
+        # Parser for when custom class name is used for extension in the format
+        #  'modulename:class_name'
         module, classname = extension.split(":")
         try:
             imported = importlib.import_module(f"extensions.{module}")
             return getattr(imported, classname)
-        except:
+        except (AttributeError, ModuleNotFoundError):
             logger.error("Could not load extension " + extension)
     # Default extension class name is 'Extension'
     else:
@@ -29,8 +30,9 @@ def parse_extension(extension):
             imported = importlib.import_module(f"extensions.{extension}")
             try:
                 return getattr(imported, "Extension")
-            except:
-                logger.error("Could not find extension class in " + str(extension))
+            except AttributeError:
+                logger.error(
+                    "Could not find extension class in " + str(extension))
         except Exception as e:
             logger.error("Could not load extension " + str(e))
 
@@ -114,14 +116,17 @@ def run(app_class=DefaultOrganizer, **kwargs):
     if recurse:
         # Check if user provided custom methods and use the default if not
         generate_files_function = getattr(
-            app, "walk_dir_recursive", getattr(app, "default_walk_dir_recursive")
+            app,
+            "walk_dir_recursive",
+            getattr(app, "default_walk_dir_recursive")
         )
     else:
         generate_files_function = getattr(
             app, "walk_dir", getattr(app, "default_walk_dir")
         )
     logger.info("Finding...")
-    for file in generate_files_function(working_dir, extensions=fileextensions):
+    for file in generate_files_function(
+            working_dir, extensions=fileextensions):
         if match_function(search, file, min_ratio):
             match_count += 1
             if opcount:
@@ -142,12 +147,14 @@ def run(app_class=DefaultOrganizer, **kwargs):
                     )
                 )
                 if des:
-                    os.makedirs(des) if not pth.exists(des) and des else donothing()
+                    os.makedirs(des) if not pth.exists(des) and des\
+                        else donothing()
                     if name_gen:
                         filename = pth.split(file)[1]
                         des = pth.join(
                             des,
-                            name_gen(filename, regex) if regex else name_gen(filename),
+                            name_gen(filename, regex) if regex
+                            else name_gen(filename),
                         )
                     action_function(file, to=des, action=action)
                     operations_count += 1
@@ -157,19 +164,24 @@ def run(app_class=DefaultOrganizer, **kwargs):
                         filename = pth.split(file)[1]
                         des = pth.join(
                             destination_dir,
-                            name_gen(filename, regex) if regex else name_gen(filename),
+                            name_gen(filename, regex) if regex
+                            else name_gen(filename),
                         )
                         action_function(file, action=action, to=des)
                         operations_count += 1
                     else:
-                        action_function(file, action=action, to=destination_dir)
+                        action_function(
+                            file,
+                            action=action,
+                            to=destination_dir)
                         operations_count += 1
                 else:
                     if name_gen:
                         filename = pth.split(file)[1]
                         des = pth.join(
                             destination_dir,
-                            name_gen(filename, regex) if regex else name_gen(filename),
+                            name_gen(filename, regex) if regex
+                            else name_gen(filename),
                         )
                         action_function(file, action=action, to=des)
                         operations_count += 1
@@ -182,7 +194,8 @@ def run(app_class=DefaultOrganizer, **kwargs):
         logger.info("Could not write to action log: " + str(e))
     logger.info("Finished")
     logger.info(
-        "Matches-%d items / Operations-%d operations" % (match_count, operations_count)
+        "Matches-%d items / Operations-%d operations"
+        % (match_count, operations_count)
     )
 
 
@@ -212,8 +225,6 @@ def main():
             regex = args.gen_regex
         else:
             name_gen = None
-
-        nomatchdir = "" if not args.nomatchdir else args.nomatchdir
 
         run_args = {
             "search": args.search_string,
@@ -245,5 +256,5 @@ def main():
         if app.reversible:
             try:
                 app.default_write_action_log()
-            except:
-                logger.error("Could not write to action log.")
+            except Exception as e:
+                logger.error("Could not write to action log." + str(e))

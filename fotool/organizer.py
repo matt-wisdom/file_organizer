@@ -2,7 +2,6 @@ import os
 import pathlib
 import re
 import os.path as pth
-import sys
 import itertools
 import marshal
 import shutil
@@ -76,7 +75,17 @@ class DefaultOrganizer:
             "pyc",
             "jar",
         ],
-        "Documents": ["pdf", "docx", "doc", "ppt", "pptx", "epub", "rtf", "txt", "ps"],
+        "Documents": [
+            "pdf",
+            "docx",
+            "doc",
+            "ppt",
+            "pptx",
+            "epub",
+            "rtf",
+            "txt",
+            "ps"
+        ],
         "Fonts": ["woff", "woff2", "ttf", "otf"],
         "Others": [],
     }
@@ -130,19 +139,24 @@ class DefaultOrganizer:
         if reverse:
             if not pth.exists(self.action_log_file):
                 logger.error("Could not locate action log file for ")
-                raise FileNotFoundError("Could not locate action log file for ")
+                raise FileNotFoundError("Could not locate action \
+                    log file for ")
         if reversible:
             try:
                 self.action_log_obj = open(self.action_log_file, "rb+")
-            except:
+            except FileNotFoundError:
                 self.action_log_obj = open(self.action_log_file, "wb+")
             content = self.action_log_obj.read().strip()
             content = marshal.loads(content) if len(content) > 0 else b""
+
+            # action logs is an dictionary with a timestamp as key and a
+            # list of action, old, and new as values
             self.action_logs = dict(
                 content
-            )  # action logs is an dictionary with a timestamp as key and a list of action, old, and new as values
+            )
         if reverse:
-            # Operations need to be reversed in the reverse order they were made
+            # Operations need to be reversed in the reverse order they
+            #  were made
             keysaslist = list(self.action_logs.keys())
             keysaslist.sort(key=lambda x: float(x), reverse=True)
             self.orderedkeys = keysaslist
@@ -218,15 +232,17 @@ class DefaultOrganizer:
 
     def default_gen_new_name_regex(self, filename, regexp):
         """
-        Generates a new file name based on a portion of old filename to be extracted by regular expression.
+        Generates a new file name based on a portion of old filename to
+        be extracted
+        by regular expression.
         e.g
             If we have some files named as follow:
             sitemoviez.com-foobar-S01-E01.mp4
             sitemoviez.com-foobar-S01-E03.mp4
             sitemoviez.com-foobar-S01-E03.mp4
             .....
-        The following regular expression would remove the site name from the file.
-        '(?<=viez.com-)(.*)'
+        The following regular expression would remove the site name from
+        the file. '(?<=viez.com-)(.*)'
         """
         filename, ext = pth.splitext(pth.split(filename)[1])
         if self.case_sensitive:
@@ -240,7 +256,8 @@ class DefaultOrganizer:
         self, filename, destination_dir=".", nomatchdir=""
     ):
         """
-        Returns the appropriate group folder for the filename using the groups dictionary ('returns nomatchpath for
+        Returns the appropriate group folder for the filename using the groups
+        dictionary ('returns nomatchpath for
         files do not belong to any of the above groups.')
         """
         destination_dir = destination_dir.rstrip("/")
@@ -259,7 +276,8 @@ class DefaultOrganizer:
         self, filename, destination_dir=".", groups=5, nomatchdir=""
     ):
         """
-        Generates directory based on file type and returns nomatchpath for unknown types
+        Generates directory based on file type and returns nomatchpath for
+        unknown types
         """
         destination_dir = destination_dir.rstrip("/")
         types = self.default_get_file_type(filename)
@@ -288,9 +306,13 @@ class DefaultOrganizer:
                 print("")
         else:
             logger.error(
-                f"Action {action} is invalid. Valid options are: copy, rename, copy_rename, move, print"
+                f"Action {action} is invalid. Valid options are: copy, \
+                    rename, copy_rename, move, print"
             )
-            raise ValueError(f"Action {action} is invalid. Valid options are: copy, rename, copy_rename, move, print")
+            raise ValueError(
+                f"Action {action} is invalid. Valid options are: copy, \
+                    rename, copy_rename, move, print"
+            )
         if (
             self.reversible and action != "print"
         ):  # No need to log print action as no change is made
@@ -335,39 +357,51 @@ class DefaultOrganizer:
 
     def default_generate_groups(self, groups, sep_nums):
         """
-        Generates a dictionary of characters and their appropriate groups where a group is of the format
-        a0-a1 where a0 is a character representing the lower group boundary and a1 represents upper group
-        boundary, Each group represents all characters between a0 and a1 for alphabets and all numbers between
-        a0 and a1 for numbers.
+        Generates a dictionary of characters and their appropriate groups
+        where a group is of the format a0-a1 where a0 is a character
+        representing the lower group boundary and a1 represents upper group
+        boundary, Each group represents all characters between a0 and a1 for
+        alphabets and all numbers between a0 and a1 for numbers.
 
-        'groups' argument states the number of groups each class (alphas and nums) be divided into.
+        'groups' argument states the number of groups each class (alphas
+         and nums) be divided into.
 
-        'sep_nums' argument specifies whether all numbers should be contained in one group 0-9 or seperated into
+        'sep_nums' argument specifies whether all numbers should be contained
+         in one group 0-9 or seperated into
         multiple groups as determined by groups
         """
         alphas = "abcdefghijklmnopqrstuvwxyz"
         nums = "1234567890"
         if self.groups:
             return
-        for i in list(range(0, len(alphas) - (len(alphas) % groups * groups), groups)):
-            for j in alphas[i : i + groups]:
+        for i in list(range(0, len(alphas) - (len(alphas) % groups * groups),
+                      groups)):
+            for j in alphas[i:i + groups]:
                 self.groups[j] = alphas[i] + "-" + alphas[i + groups - 1]
 
-            for j in alphas[i + groups - 1 :]:
-                self.groups[j] = alphas[i + groups - 1] + "-" + alphas[len(alphas) - 1]
+            for j in alphas[i + groups - 1:]:
+                self.groups[j] = \
+                    (alphas[i + groups - 1] + "-" + alphas[len(alphas) - 1])
         if not sep_nums:
             for i in nums:
                 self.groups[i] = "0-9"
         else:
-            for i in list(range(0, len(nums) - (len(nums) % groups * groups), groups)):
-                for j in alphas[i : i + groups]:
+            for i in list(range(0, len(nums) - (len(nums) % groups * groups),
+                          groups)):
+                for j in alphas[i: i + groups]:
                     self.groups[j] = nums[i] + "-" + nums[i + groups - 1]
 
-                for j in nums[i + groups - 1 :]:
-                    self.groups[j] = nums[i + groups - 1] + "-" + nums[len(nums) - 1]
+                for j in nums[i + groups - 1:]:
+                    self.groups[j] = \
+                        nums[i + groups - 1] + "-" + nums[len(nums) - 1]
 
     def default_generate_destination_alphabetic(
-        self, path, groups=5, destination_dir=".", sep_nums=False, nomatchpath=""
+        self,
+        path,
+        groups=5,
+        destination_dir=".",
+        sep_nums=False,
+        nomatchpath=""
     ):
         """
         Generate destination folder based on alphabetic ordering
@@ -403,7 +437,8 @@ class DefaultOrganizer:
             try:
                 return shutil.copy2(from_, to)
             except Exception as e:
-                logger.exception("Could not copy %s to %s: %s" % (from_, to, e))
+                logger.exception("Could not copy %s to %s: %s"
+                                 % (from_, to, e))
                 return -1
         logger.info("Moving  %s to %s." % (from_, to))
         try:
@@ -422,7 +457,7 @@ class DefaultOrganizer:
                     fname = pth.join(root, name)
                     try:
                         ext = self.default_get_file_type(fname)[0]
-                    except:
+                    except (TypeError, IndexError):
                         continue
                     if ext in extensions:
                         yield fname
@@ -442,7 +477,7 @@ class DefaultOrganizer:
             if extensions:
                 try:
                     ext = self.default_get_file_type(fname)[0]
-                except Exception as e:
+                except Exception:
                     continue
                 if ext in extensions:
                     yield fname
