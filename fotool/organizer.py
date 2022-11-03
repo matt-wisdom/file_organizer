@@ -148,11 +148,13 @@ class DefaultOrganizer:
         reversetimerangestart=None,
         reversetimerangestop=None,
         newline=False,
+        case_sensitive=False,
     ):
         self.action_log_file = action_log
         self.newline = newline
         self.groups = {}
         self.names = None
+        self.case_sensitive = case_sensitive
         self.reversible = reversible
         self.reverse_count = reverse_count
         self.reversetimerangestart = reversetimerangestart
@@ -160,7 +162,7 @@ class DefaultOrganizer:
         if reverse:
             if not pth.exists(self.action_log_file):
                 logger.error("Could not locate action log file for ")
-                raise KeyboardInterrupt()
+                raise FileNotFoundError("Could not locate action log file for ")
         if reversible:
             try:
                 self.action_log_obj = open(self.action_log_file, "rb+")
@@ -182,13 +184,14 @@ class DefaultOrganizer:
 
     def default_write_action_log(self):
         if not self.reversible:
-            logger.info("Writing action log to disk...")
-            return
+            logger.info("Not writing action log to disk...")
+            return False
         logger.info("Writing to action log.")
         content = marshal.dumps(self.action_logs)
         self.action_log_obj.write(content)
         self.action_log_obj.flush()
         logger.info("Finished writing to log.")
+        return True
 
     def default_add_to_log(self, action, old, new):
         name = str(time.time())  # Stores action list with timestamp key
@@ -206,7 +209,10 @@ class DefaultOrganizer:
         ft_list = []
         for i in file:
             ft = filetype.guess(i)
-            ft_list.append((ft.extension, ft.mime))
+            if ft is None:
+                ft_list.append(self.default_get_more_types(i))
+            else:
+                ft_list.append((ft.extension, ft.mime))
         return ft_list
 
     def default_get_more_types(self, filename):
@@ -256,17 +262,14 @@ class DefaultOrganizer:
         """
         filename, ext = pth.splitext(pth.split(filename)[1])
         if self.case_sensitive:
-            regexp = re.findall(regexp, filename)[0]
+            match = re.findall(regexp, filename)[0]
         else:
-            regexp = re.findall(regexp, filename, re.I | re.M)[0]
-        try:
-            new_filename = regexp.group().lower() + ext
-        except:
-            return
+            match = re.findall(regexp, filename, re.I | re.M)[0]
+        new_filename = match + ext
         return new_filename
 
     def default_generate_destination_group(
-        self, filename, destination_dir=".", groups=5, nomatchdir=""
+        self, filename, destination_dir=".", nomatchdir=""
     ):
         """
         Returns the appropriate group folder for the filename using the groups dictionary ('returns nomatchpath for
@@ -298,10 +301,11 @@ class DefaultOrganizer:
             return nomatchdir
         return pth.join(destination_dir, types[1])
 
-    def default_action(self, from_, to="", action="find"):
+    def default_action(self, from_, to="", action="print"):
         """
         Initiates appropriate actions to be carried out on matched filenames
         """
+        out = ""
         if action == "copy":
             out = self.default_copy(from_, to)
         elif action == "rename":
@@ -316,13 +320,14 @@ class DefaultOrganizer:
                 print("")
         else:
             logger.error(
-                "Action %s is invalid. Valid options are: copy, rename, copy_rename, move, print"
+                f"Action {action} is invalid. Valid options are: copy, rename, copy_rename, move, print"
             )
-            raise KeyboardInterrupt
+            raise ValueError(f"Action {action} is invalid. Valid options are: copy, rename, copy_rename, move, print")
         if (
             self.reversible and action != "print"
         ):  # No need to log print action as no change is made
             self.default_add_to_log(action, from_, to)
+        return out
 
     def default_reverse(self):
         if not self.orderedkeys and self.action_logs:
@@ -382,7 +387,7 @@ class DefaultOrganizer:
 
             for j in alphas[i + groups - 1 :]:
                 self.groups[j] = alphas[i + groups - 1] + "-" + alphas[len(alphas) - 1]
-        if sep_nums:
+        if not sep_nums:
             for i in nums:
                 self.groups[i] = "0-9"
         else:
@@ -394,9 +399,12 @@ class DefaultOrganizer:
                     self.groups[j] = nums[i + groups - 1] + "-" + nums[len(nums) - 1]
 
     def default_generate_destination_alphabetic(
-        self, path, groups=5, destination_dir=".", sep_nums=True, nomatchpath=""
+        self, path, groups=5, destination_dir=".", sep_nums=False, nomatchpath=""
     ):
-        """ """
+        """
+        Generate destination folder based on alphabetic ordering
+        """
+        path = path.lower()
         destination_dir = destination_dir.rstrip("/")
         self.default_generate_groups(groups, sep_nums)
         firstchar = pth.split(path)[1][0]
@@ -414,24 +422,26 @@ class DefaultOrganizer:
         and set overwrite flag to overwrite existing files.
         """
         if pth.exists(to) and not overwrite:
-            path, fname = pth.split(from_)
-            name, ext = pth.splitext(fname)
-            name = name
-            fname = name + ext
+            return -1
+
+        path, fname = pth.split(from_)
+        name, ext = pth.splitext(fname)
+        name = name
+        fname = name + ext
+        if pth.isdir(to):
             to = pth.join(to, fname)
         if not move:
             logger.info("Copying  %s to %s." % (from_, to))
             try:
-
                 return shutil.copy2(from_, to)
             except Exception as e:
-                print("[!!!] Could not copy %s to %s: %s" % (from_, to, e))
+                logger.exception("Could not copy %s to %s: %s" % (from_, to, e))
                 return -1
         logger.info("Moving  %s to %s." % (from_, to))
         try:
             return shutil.move(from_, to)
         except Exception as e:
-            print("[!!!] Could not move %s to %s: %s" % (from_, to, e))
+            logger.exception("Could not move %s to %s: %s" % (from_, to, e))
             return -1
 
     def default_walk_dir_recursive(self, dir=".", extensions=""):
@@ -460,18 +470,18 @@ class DefaultOrganizer:
         content = os.listdir(dir)
         files = filter(lambda x: pth.isfile(pth.join(dir, x)), content)
         files = [pth.join(dir, x) for x in files]
-        for i in files:
+        for fname in files:
             if extensions:
                 try:
                     ext = self.default_get_file_type(fname)[0]
                 except:
                     continue
                 if ext in extensions:
-                    yield i
+                    yield fname
                     continue
                 else:
                     continue
-            yield i
+            yield fname
 
     def default_rename(self, from_, to, copy=False, overwrite=False):
         """
@@ -479,11 +489,7 @@ class DefaultOrganizer:
         If 'copy' is True a copy is made with the new name instead instead
         """
         if pth.exists(to) and not overwrite:
-            path, fname = pth.split(from_)
-            name, ext = pth.splitext(fname)
-            name = name
-            fname = name + ext
-            to = pth.join(to, fname)
+            return -1
         if copy:
             try:
                 logger.info("Copying %s to %s." % (from_, to))
@@ -492,7 +498,8 @@ class DefaultOrganizer:
                 logger.error("Renaming %s to %s failed." % (from_, to))
                 logger.error(e)
         logger.info("Renaming %s to %s." % (from_, to))
-        return os.rename(from_, to)
+        os.rename(from_, to)
+        return to
 
     @staticmethod
     def default_fuzzy_search(search, string, min_ratio=70):

@@ -125,7 +125,7 @@ def run(app_class=DefaultOrganizer, **kwargs):
         if match_function(search, file, min_ratio):
             match_count += 1
             if opcount:
-                if opcount >= match_count:
+                if opcount <= match_count - 1:
                     break
             if destination_generation_function:
 
@@ -241,7 +241,7 @@ def main():
         }
         run(**run_args)
     except Exception as e:
-        print("Tidying up...")
+        print("Tidying up...", e)
         if app.reversible:
             try:
                 app.default_write_action_log()
