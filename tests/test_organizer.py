@@ -452,6 +452,7 @@ def test_default_reverse_move():
 def test_default_reverse():
     create_reverse_files()
     os.remove("action_log")
+    raise Exception(os.listdir("tests/samples/reverse"))
     org = organizer.DefaultOrganizer(reversible=True)
     to = samples_base / "reverse" / "to"
     fname = "21.txt"
