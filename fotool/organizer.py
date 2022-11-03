@@ -303,7 +303,7 @@ class DefaultOrganizer:
         elif action == "copy_rename":
             out = self.default_rename(from_, to, True)
         elif action == "move":
-            out = self.default_copy(from_, to, True)
+            out = self.default_copy(from_, to, True, True)
             raise Exception(out)
         elif action == "print":
             print(from_)
