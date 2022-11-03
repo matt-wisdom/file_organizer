@@ -19,20 +19,20 @@ def parse_extension(extension):
         # Parser for when custom class name is used for extension in the format 'modulename:class_name'
         module, classname = extension.split(":")
         try:
-            imported = importlib.import_module(module)
+            imported = importlib.import_module(f"extensions.{module}")
             return getattr(imported, classname)
         except:
             logger.error("Could not load extension " + extension)
     # Default extension class name is 'Extension'
     else:
         try:
-            imported = importlib.import_module(extension)
+            imported = importlib.import_module(f"extensions.{extension}")
             try:
                 return getattr(imported, "Extension")
             except:
-                logger.error("Could not find extension class in " + extension)
-        except:
-            logger.error("Could not load extension " + extension)
+                logger.error("Could not find extension class in " + str(extension))
+        except Exception as e:
+            logger.error("Could not load extension " + str(e))
 
 
 def run(app_class=DefaultOrganizer, **kwargs):
@@ -44,7 +44,7 @@ def run(app_class=DefaultOrganizer, **kwargs):
     regex = kwargs.get("regex")
     rtstop = kwargs.get("rtstop")
     if kwargs.get("extension"):
-        app_class = parse_extension(extension)
+        app_class = parse_extension(kwargs.get("extension"))
     action_log = kwargs.get("action_log")
     reverse = kwargs.get("reverse")
     if reverse:
