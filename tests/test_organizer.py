@@ -411,6 +411,7 @@ def test_default_action_invalid():
 def create_reverse_files():
     base = samples_base / "reverse"
     paths = []
+    os.mkdir(str(base / "to"))
     for i in ["21", "33", "52"]:
         path = base / f"{i}.txt"
         with open(path, "w") as f:
@@ -452,7 +453,6 @@ def test_default_reverse_move():
 def test_default_reverse():
     create_reverse_files()
     os.remove("action_log")
-    raise Exception(os.listdir("tests/samples/reverse"))
     org = organizer.DefaultOrganizer(reversible=True)
     to = samples_base / "reverse" / "to"
     fname = "21.txt"
