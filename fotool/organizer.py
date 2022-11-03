@@ -304,6 +304,7 @@ class DefaultOrganizer:
             out = self.default_rename(from_, to, True)
         elif action == "move":
             out = self.default_copy(from_, to, True)
+            raise out
         elif action == "print":
             print(from_)
             if self.newline:
