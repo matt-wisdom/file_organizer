@@ -182,6 +182,8 @@ class DefaultOrganizer:
         if pth.isdir(pth.abspath(new)):
             fname = pth.split(old)[1]  # Get filename to add to log
             new = pth.join(pth.abspath(new), fname)
+        if not isinstance(new, str):
+            new = str(new)
         self.action_logs[name] = [action, pth.abspath(old), new]
 
     def default_get_file_type(self, file):
