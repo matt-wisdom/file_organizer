@@ -450,6 +450,7 @@ class DefaultOrganizer:
             return shutil.move(from_, to)
         except Exception as e:
             logger.exception("Could not move %s to %s: %s" % (from_, to, e))
+            raise Exception(e)
             return -1
 
     def default_walk_dir_recursive(self, dir=".", extensions=""):
