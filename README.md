@@ -103,9 +103,10 @@ optional arguments:
 </pre>                 
 **Extending fotools**
 <pre>
-To extend fotools, all you need do is create a python file with a class named
-'Extension' or whatever you want, import and inherit the DefaultOrganizer class 
-from organizer.py and create methods for whatever feature you need to extend.
+To extend fotools, all you need do is create a python file in the extensions folder
+with a class named 'Extension' or whatever you want, import and inherit the 
+DefaultOrganizer class  from organizer.py and create methods for whatever feature you 
+need to extend.
 To extend a method simply create a similar method with name similar to that 
 of the method name without the 'default_' prepended to it e.g 'default_fuzzy_search'
 becomes 'fuzzy_search'.
