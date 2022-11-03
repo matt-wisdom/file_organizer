@@ -1,4 +1,5 @@
 # fileorg_tool
+![test_status](https://github.com/matt-wisdom/file_organizer/actions/workflows/main.yml/badge.svg?event=push)
 <pre>
 An extensible file searching and organization tool with a couple of useful features.
 
