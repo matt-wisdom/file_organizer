@@ -1,3 +1,4 @@
 [flake8]
 exclude =
     tests/*
+ignore = E403,F405,F403,F401

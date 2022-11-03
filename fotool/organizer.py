@@ -1,13 +1,15 @@
-import os
-import pathlib
-import re
-import os.path as pth
 import itertools
 import marshal
+import os
+import os.path as pth
+import pathlib
+import re
 import shutil
 import time
-from fuzzywuzzy import fuzz
+
 import filetype
+from fuzzywuzzy import fuzz
+
 from . import logger
 
 

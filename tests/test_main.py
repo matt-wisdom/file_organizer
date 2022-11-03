@@ -1,4 +1,4 @@
-from fotool import main, organizer, organizer
+from fotool import main, organizer
 
 
 def test_parse_extension():

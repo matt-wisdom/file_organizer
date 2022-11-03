@@ -1,11 +1,12 @@
-from logging import exception
-import pathlib
-import shutil
-import time
-import pytest
 import io
 import marshal
 import os
+import pathlib
+import shutil
+import time
+
+import pytest
+
 from fotool import organizer
 
 sep = os.path.sep

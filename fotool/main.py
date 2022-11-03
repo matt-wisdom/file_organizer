@@ -1,11 +1,12 @@
 import importlib
 import os
 import os.path as pth
-from fotool.parser import parser
+
 from fotool.help import *
 from fotool.organizer import DefaultOrganizer
-from . import logger
+from fotool.parser import parser
 
+from . import logger
 
 extension = []
 
