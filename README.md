@@ -1,6 +1,8 @@
 # fileorg_tool
 ![test_status](https://github.com/matt-wisdom/file_organizer/actions/workflows/main.yml/badge.svg?event=push)
 
+## Installation
+
 
 ## Features
 fotools is an extensible file searching and organization tool.  
@@ -18,35 +20,35 @@ Lets examine some scenarios where thi program will be useful.
 Say we have the following folder structure.
 ```
 files
-├── bg2.jpg
-├── bg4.jpg
-├── bg5.jpg
-├── bg.jpg
-├── blog.js
-├── elf.png
-├── facebook.png
-├── favicon.ico
-├── fonts
-│   ├── 1.jpg
-│   ├── 2.jpg
-│   ├── adventpro.ttf
-│   ├── LICENSE.txt
-│   ├── logo.png
-│   ├── luckiest-guy.zip
-│   ├── Roboto-BlackItalic.ttf
-│   └── Roboto-Black.ttf
-├── jquery.js
-├── photo1.jpg
-├── Roboto.zip
-├── RSS.png
-├── sunset.png
-└── webdes.jpg
+├──bg2.jpg
+├──bg4.jpg
+├──bg5.jpg
+├──bg.jpg
+├──blog.js
+├──elf.png
+├──facebook.png
+├──favicon.ico
+├──fonts
+│   ├──1.jpg
+│   ├──2.jpg
+│   ├──adventpro.ttf
+│   ├──LICENSE.txt
+│   ├──logo.png
+│   ├──luckiest-guy.zip
+│   ├──Roboto-BlackItalic.ttf
+│   └──Roboto-Black.ttf
+├──jquery.js
+├──photo1.jpg
+├──Roboto.zip
+├──RSS.png
+├──sunset.png
+└──webdes.jpg
 
 ```
 We'll start simple.
 
 **To list all png/jpg files**
-<pre><font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ fotool.py -y png,jpg -r 
+<pre><b>wisdom@wisdom</b>:<b>~/yun/files</b>$ fotool.py -y png,jpg -r 
 /home/wisdom/yun/files/RSS.png
 /home/wisdom/yun/files/bg.jpg
 /home/wisdom/yun/files/webdes.jpg
@@ -63,43 +65,43 @@ We'll start simple.
 /home/wisdom/yun/files/fonts/logo.png</pre>
 
 **To use fuzzy search to find "LCENSE"**
-<pre><font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ fotool.py -s LCENSE -r
+<pre><b>wisdom@wisdom</b>:<b>~/yun/files</b>$ fotool.py -s LCENSE -r
 /home/wisdom/yun/files/fonts/LICENSE.txt
 </pre>
 
 **To organize the files into groups**
-<pre><font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ fotool -a move -r -g
-<font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ tree
-<font color="#42A5F5"><b>.</b></font>
-├── action_log
-├── <font color="#42A5F5"><b>Archives</b></font>
-│   ├── <font color="#C3D82C"><b>luckiest-guy.zip</b></font>
-│   └── <font color="#C3D82C"><b>Roboto.zip</b></font>
-├── <font color="#42A5F5"><b>Documents</b></font>
-│   └── <font color="#C3D82C"><b>LICENSE.txt</b></font>
-├── <font color="#42A5F5"><b>fonts</b></font>
-├── <font color="#42A5F5"><b>Fonts</b></font>
-│   ├── <font color="#C3D82C"><b>adventpro.ttf</b></font>
-│   ├── <font color="#C3D82C"><b>Roboto-BlackItalic.ttf</b></font>
-│   └── <font color="#C3D82C"><b>Roboto-Black.ttf</b></font>
-├── <font color="#42A5F5"><b>Images</b></font>
-│   ├── <font color="#C3D82C"><b>1.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>2.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>bg2.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>bg4.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>bg5.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>bg.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>elf.png</b></font>
-│   ├── <font color="#C3D82C"><b>facebook.png</b></font>
-│   ├── <font color="#C3D82C"><b>favicon.ico</b></font>
-│   ├── <font color="#C3D82C"><b>logo.png</b></font>
-│   ├── <font color="#C3D82C"><b>photo1.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>RSS.png</b></font>
-│   ├── <font color="#C3D82C"><b>sunset.png</b></font>
-│   └── <font color="#C3D82C"><b>webdes.jpg</b></font>
-└── <font color="#42A5F5"><b>Source_Codes</b></font>
-    ├── <font color="#C3D82C"><b>blog.js</b></font>
-    └── <font color="#C3D82C"><b>jquery.js</b></font>
+<pre><b>wisdom@wisdom</b>:<b>~/yun/files</b>$ fotool -a move -r -g
+<b>wisdom@wisdom</b>:<b>~/yun/files</b>$ tree
+<b>.</b>
+├──action_log
+├──<b>Archives</b>
+│  ├──<b>luckiest-guy.zip</b>
+│  └──<b>Roboto.zip</b>
+├──<b>Documents</b>
+│  └──<b>LICENSE.txt</b>
+├──<b>fonts</b>
+├──<b>Fonts</b>
+│  ├──<b>adventpro.ttf</b>
+│  ├──<b>Roboto-BlackItalic.ttf</b>
+│  └──<b>Roboto-Black.ttf</b>
+├──<b>Images</b>
+│  ├──<b>1.jpg</b>
+│  ├──<b>2.jpg</b>
+│  ├──<b>bg2.jpg</b>
+│  ├──<b>bg4.jpg</b>
+│  ├──<b>bg5.jpg</b>
+│  ├──<b>bg.jpg</b>
+│  ├──<b>elf.png</b>
+│  ├──<b>facebook.png</b>
+│  ├──<b>favicon.ico</b>
+│  ├──<b>logo.png</b>
+│  ├──<b>photo1.jpg</b>
+│  ├──<b>RSS.png</b>
+│  ├──<b>sunset.png</b>
+│  └──<b>webdes.jpg</b>
+└──<b>Source_Codes</b>
+   ├──<b>blog.js</b>
+   └──<b>jquery.js</b>
 </pre>
 
 <b>To reverse the above action or any action that's happened in this folder</b>
@@ -122,95 +124,95 @@ wisdom@wisdom:~/yun/files$ fotool -j
 /home/wisdom/yun/files/facebook.png
 wisdom@wisdom:~/yun/files$ tree
 .
-├── action_log
-├── bg2.jpg
-├── bg4.jpg
-├── bg5.jpg
-├── bg.jpg
-├── blog.js
-├── elf.png
-├── facebook.png
-├── favicon.ico
-├── fonts
-│   ├── 1.jpg
-│   ├── 2.jpg
-│   ├── adventpro.ttf
-│   ├── LICENSE.txt
-│   ├── logo.png
-│   ├── luckiest-guy.zip
-│   ├── Roboto-BlackItalic.ttf
-│   └── Roboto-Black.ttf
-├── jquery.js
-├── photo1.jpg
-├── Roboto.zip
-├── RSS.png
-├── sunset.png
-└── webdes.jpg
+├──action_log
+├──bg2.jpg
+├──bg4.jpg
+├──bg5.jpg
+├──bg.jpg
+├──blog.js
+├──elf.png
+├──facebook.png
+├──favicon.ico
+├──fonts
+│   ├──1.jpg
+│   ├──2.jpg
+│   ├──adventpro.ttf
+│   ├──LICENSE.txt
+│   ├──logo.png
+│   ├──luckiest-guy.zip
+│   ├──Roboto-BlackItalic.ttf
+│   └──Roboto-Black.ttf
+├──jquery.js
+├──photo1.jpg
+├──Roboto.zip
+├──RSS.png
+├──sunset.png
+└──webdes.jpg
 </pre>
 
 <b>To organize by file types</b>
-<pre><font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ fotool -a move -r -t
-<font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ tree
-<font color="#42A5F5"><b>.</b></font>
-├── action_log
-├── <font color="#42A5F5"><b>fonts</b></font>
-├── <font color="#42A5F5"><b>FONT-SFNT Files</b></font>
-│   ├── <font color="#C3D82C"><b>adventpro.ttf</b></font>
-│   ├── <font color="#C3D82C"><b>Roboto-BlackItalic.ttf</b></font>
-│   └── <font color="#C3D82C"><b>Roboto-Black.ttf</b></font>
-├── <font color="#42A5F5"><b>Javascript Source Files</b></font>
-│   ├── <font color="#C3D82C"><b>blog.js</b></font>
-│   └── <font color="#C3D82C"><b>jquery.js</b></font>
-├── <font color="#42A5F5"><b>JPEG Files</b></font>
-│   ├── <font color="#C3D82C"><b>1.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>2.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>bg2.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>bg4.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>bg5.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>bg.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>photo1.jpg</b></font>
-│   └── <font color="#C3D82C"><b>webdes.jpg</b></font>
-├── <font color="#42A5F5"><b>PNG Files</b></font>
-│   ├── <font color="#C3D82C"><b>elf.png</b></font>
-│   ├── <font color="#C3D82C"><b>facebook.png</b></font>
-│   ├── <font color="#C3D82C"><b>favicon.ico</b></font>
-│   ├── <font color="#C3D82C"><b>logo.png</b></font>
-│   ├── <font color="#C3D82C"><b>RSS.png</b></font>
-│   └── <font color="#C3D82C"><b>sunset.png</b></font>
-├── <font color="#42A5F5"><b>Text File</b></font>
-│   └── <font color="#C3D82C"><b>LICENSE.txt</b></font>
-└── <font color="#42A5F5"><b>ZIP Files</b></font>
-    ├── <font color="#C3D82C"><b>luckiest-guy.zip</b></font>
-    └── <font color="#C3D82C"><b>Roboto.zip</b></font>
+<pre><b>wisdom@wisdom</b>:<b>~/yun/files</b>$ fotool -a move -r -t
+<b>wisdom@wisdom</b>:<b>~/yun/files</b>$ tree
+<b>.</b>
+├──action_log
+├──<b>fonts</b>
+├──<b>FONT-SFNT Files</b>
+│   ├──<b>adventpro.ttf</b>
+│   ├──<b>Roboto-BlackItalic.ttf</b>
+│   └──<b>Roboto-Black.ttf</b>
+├──<b>Javascript Source Files</b>
+│   ├──<b>blog.js</b>
+│   └──<b>jquery.js</b>
+├──<b>JPEG Files</b>
+│   ├──<b>1.jpg</b>
+│   ├──<b>2.jpg</b>
+│   ├──<b>bg2.jpg</b>
+│   ├──<b>bg4.jpg</b>
+│   ├──<b>bg5.jpg</b>
+│   ├──<b>bg.jpg</b>
+│   ├──<b>photo1.jpg</b>
+│   └──<b>webdes.jpg</b>
+├──<b>PNG Files</b>
+│   ├──<b>elf.png</b>
+│   ├──<b>facebook.png</b>
+│   ├──<b>favicon.ico</b>
+│   ├──<b>logo.png</b>
+│   ├──<b>RSS.png</b>
+│   └──<b>sunset.png</b>
+├──<b>Text File</b>
+│   └──<b>LICENSE.txt</b>
+└──<b>ZIP Files</b>
+    ├──<b>luckiest-guy.zip</b>
+    └──<b>Roboto.zip</b>
 </pre>
 
 <b>To remove roboto from the font names</b>
-<pre><font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ fotool -a move -r -x &quot;(?&lt;=Roboto)(.*)&quot; -s &quot;roboto&quot; -z fonts/
-<font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ tree
-<font color="#42A5F5"><b>.</b></font>
-├── action_log
-├── <font color="#C3D82C"><b>bg2.jpg</b></font>
-├── <font color="#C3D82C"><b>bg4.jpg</b></font>
-├── <font color="#C3D82C"><b>bg5.jpg</b></font>
-├── <font color="#C3D82C"><b>bg.jpg</b></font>
-├── <font color="#C3D82C"><b>blog.js</b></font>
-├── <font color="#C3D82C"><b>elf.png</b></font>
-├── <font color="#C3D82C"><b>facebook.png</b></font>
-├── <font color="#C3D82C"><b>favicon.ico</b></font>
-├── <font color="#42A5F5"><b>fonts</b></font>
-│   ├── <font color="#C3D82C"><b>1.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>2.jpg</b></font>
-│   ├── <font color="#C3D82C"><b>adventpro.ttf</b></font>
-│   ├── <font color="#C3D82C"><b>-BlackItalic.ttf</b></font>
-│   ├── <font color="#C3D82C"><b>-Black.ttf</b></font>
-│   ├── <font color="#C3D82C"><b>LICENSE.txt</b></font>
-│   ├── <font color="#C3D82C"><b>logo.png</b></font>
-│   └── <font color="#C3D82C"><b>luckiest-guy.zip</b></font>
-├── <font color="#C3D82C"><b>jquery.js</b></font>
-├── <font color="#C3D82C"><b>photo1.jpg</b></font>
-├── <font color="#C3D82C"><b>RSS.png</b></font>
-├── <font color="#C3D82C"><b>sunset.png</b></font>
-└── <font color="#C3D82C"><b>webdes.jpg</b></font>
+<pre><b>wisdom@wisdom</b>:<b>~/yun/files</b>$ fotool -a move -r -x &quot;(?&lt;=Roboto)(.*)&quot; -s &quot;roboto&quot; -z fonts/
+<b>wisdom@wisdom</b>:<b>~/yun/files</b>$ tree
+<b>.</b>
+├──action_log
+├──<b>bg2.jpg</b>
+├──<b>bg4.jpg</b>
+├──<b>bg5.jpg</b>
+├──<b>bg.jpg</b>
+├──<b>blog.js</b>
+├──<b>elf.png</b>
+├──<b>facebook.png</b>
+├──<b>favicon.ico</b>
+├──<b>fonts</b>
+│   ├──<b>1.jpg</b>
+│   ├──<b>2.jpg</b>
+│   ├──<b>adventpro.ttf</b>
+│   ├──<b>-BlackItalic.ttf</b>
+│   ├──<b>-Black.ttf</b>
+│   ├──<b>LICENSE.txt</b>
+│   ├──<b>logo.png</b>
+│   └──<b>luckiest-guy.zip</b>
+├──<b>jquery.js</b>
+├──<b>photo1.jpg</b>
+├──<b>RSS.png</b>
+├──<b>sunset.png</b>
+└──<b>webdes.jpg</b>
 
 1 directory, 22 files
 </pre>
