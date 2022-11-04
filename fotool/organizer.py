@@ -6,6 +6,7 @@ import pathlib
 import re
 import shutil
 import time
+from typing import Any, List, Tuple, Generator, Union
 
 import filetype
 from fuzzywuzzy import fuzz
@@ -121,15 +122,17 @@ class DefaultOrganizer:
 
     def __init__(
         self,
-        reversible=True,
-        reverse=False,
-        action_log="action_log",
-        reverse_count=None,
-        reversetimerangestart=None,
-        reversetimerangestop=None,
-        newline=False,
-        case_sensitive=False,
+        reversible: bool = True,
+        reverse: bool = False,
+        action_log: pathlib.Path = "action_log",
+        reverse_count: int = None,
+        reversetimerangestart: float = None,
+        reversetimerangestop: float = None,
+        newline: bool = False,
+        case_sensitive: bool = False,
     ):
+        """
+        """
         self.action_log_file = action_log
         self.newline = newline
         self.groups = {}
@@ -139,12 +142,15 @@ class DefaultOrganizer:
         self.reverse_count = reverse_count
         self.reversetimerangestart = reversetimerangestart
         self.reversetimerangestop = reversetimerangestop
+
         if reverse:
             if not pth.exists(self.action_log_file):
                 logger.error("Could not locate action log file for ")
                 raise FileNotFoundError("Could not locate action \
                     log file for ")
+
         if reversible:
+            # Load or create new log file
             try:
                 self.action_log_obj = open(self.action_log_file, "rb+")
             except FileNotFoundError:
@@ -157,6 +163,7 @@ class DefaultOrganizer:
             self.action_logs = dict(
                 content
             )
+
         if reverse:
             # Operations need to be reversed in the reverse order they
             #  were made
@@ -166,10 +173,13 @@ class DefaultOrganizer:
             reverse_method = getattr(self, "reverse", self.default_reverse)
             reverse_method()
             return
-        
+
         self.extra_attr = {}
 
-    def default_write_action_log(self):
+    def default_write_action_log(self) -> bool:
+        """
+            Write current log to disk
+        """
         if not self.reversible:
             logger.info("Not writing action log to disk...")
             return False
@@ -180,7 +190,17 @@ class DefaultOrganizer:
         logger.info("Finished writing to log.")
         return True
 
-    def default_add_to_log(self, action, old, new):
+    def default_add_to_log(self,
+                           action: str,
+                           old: pathlib.Path,
+                           new: pathlib.Path) -> None:
+        """
+            Add operation to log.
+
+            :param action: operation carried out
+            :param old: path to location of file before op.
+            :param new: path to location of file after op.
+        """
         name = str(time.time())  # Stores action list with timestamp key
         if pth.isdir(pth.abspath(new)):
             fname = pth.split(old)[1]  # Get filename to add to log
@@ -189,7 +209,14 @@ class DefaultOrganizer:
             new = str(new)
         self.action_logs[name] = [action, pth.abspath(old), new]
 
-    def default_get_file_type(self, file):
+    def default_get_file_type(self,
+                              file: pathlib.Path
+                              ) -> Union[None, Tuple[str, str]]:
+        """
+            Get filetype of the give file.
+            :param file: file path
+            :return: (extension, mimetype) or None
+        """
         if isinstance(file, (pathlib.Path, str)):
             ft = filetype.guess(file)
             if not ft:
@@ -204,9 +231,12 @@ class DefaultOrganizer:
                 ft_list.append((ft.extension, ft.mime))
         return ft_list
 
-    def default_get_more_types(self, filename):
+    def default_get_more_types(self,
+                               filename: pathlib.Path) -> Tuple[str,
+                                                                str]:
         """
-        Get some extra types not recognized by filetype
+           Get some extra types not recognized by filetype
+           :param filename: file path
         """
         ext = pth.splitext(filename)[1][1:]
         if ext:
@@ -215,9 +245,13 @@ class DefaultOrganizer:
                 return (ext.lower(), type_)
         return ()
 
-    def default_gen_new_names(self, chars="0123456789"):
+    def default_gen_new_names(self,
+                              chars="0123456789") -> Generator[str,
+                                                               None,
+                                                               None]:
         """
         Generate names using combinations of chars for rename functionality
+        :param chars: characters to use in generating new names
         """
         length = 1
         names = itertools.combinations_with_replacement(chars, length)
@@ -228,16 +262,20 @@ class DefaultOrganizer:
                 length += 1
                 names = itertools.combinations_with_replacement(chars, length)
 
-    def default_gen_new_name_combination(self, filename):
+    def default_gen_new_name_combination(self,
+                                         filename: pathlib.Path) -> pathlib.Path:
         """
-        Generate new name from the default_gen_new_names generator function
+        Generate a new name for file using the default_gen_new_names generator
+        :param filename: file path
         """
         if not self.names:
             self.names = self.default_gen_new_names()
         ext = pth.splitext(filename)[1]
         return next(self.names) + ext
 
-    def default_gen_new_name_regex(self, filename, regexp):
+    def default_gen_new_name_regex(self,
+                                   filename: pathlib.Path,
+                                   regexp: str) -> pathlib.Path:
         """
         Generates a new file name based on a portion of old filename to
         be extracted
@@ -250,6 +288,9 @@ class DefaultOrganizer:
             .....
         The following regular expression would remove the site name from
         the file. '(?<=viez.com-)(.*)'
+
+        :param filename: file path
+        :param regexp: Regular expression to use in extracting names.
         """
         filename, ext = pth.splitext(pth.split(filename)[1])
         if self.case_sensitive:
@@ -259,13 +300,18 @@ class DefaultOrganizer:
         new_filename = match + ext
         return new_filename
 
-    def default_generate_destination_group(
-        self, filename, destination_dir=".", nomatchdir=""
-    ):
+    def default_generate_destination_group(self,
+                                           filename: pathlib.Path,
+                                           destination_dir: pathlib.Path = ".",
+                                           nomatchdir: pathlib.Path = "") -> pathlib.Path:
         """
         Returns the appropriate group folder for the filename using the groups
         dictionary ('returns nomatchpath for
         files do not belong to any of the above groups.')
+
+        :param filename: file path
+        :param destination_dir: destination file path
+        :param nomatchdir: folder to assign non matching files to
         """
         destination_dir = destination_dir.rstrip("/")
         nomatchdir = nomatchdir.replace("[:dd:]", destination_dir)
@@ -279,12 +325,18 @@ class DefaultOrganizer:
                 return pth.join(destination_dir, i)
         return nomatchdir
 
-    def default_generate_destination_type(
-        self, filename, destination_dir=".", groups=5, nomatchdir=""
-    ):
+    def default_generate_destination_type(self,
+                                          filename: pathlib.Path,
+                                          destination_dir: pathlib.Path = ".",
+                                          _=5,
+                                          nomatchdir: pathlib.Path = "") -> pathlib.Path:
         """
         Generates directory based on file type and returns nomatchpath for
         unknown types
+
+        :param filename: file path
+        :param destination_dir: destination file path
+        :param nomatchdir: folder to assign non matching files to
         """
         destination_dir = destination_dir.rstrip("/")
         types = self.default_get_file_type(filename)
@@ -294,9 +346,16 @@ class DefaultOrganizer:
             return nomatchdir
         return pth.join(destination_dir, types[1])
 
-    def default_action(self, from_, to="", action="print"):
+    def default_action(self,
+                       from_: pathlib.Path,
+                       to: Union[None, pathlib.Path] = None,
+                       action: str = "print") -> Any:
         """
-        Initiates appropriate actions to be carried out on matched filenames
+        Initiates actions to be carried out on matched files
+
+        :param from_: file path
+        :param to: destination file path
+        :param action: action to carry out
         """
         out = ""
         if action == "copy":
@@ -326,7 +385,10 @@ class DefaultOrganizer:
             self.default_add_to_log(action, from_, to)
         return out
 
-    def default_reverse(self):
+    def default_reverse(self) -> None:
+        """
+            Reverse operation carried out using log
+        """
         if not self.orderedkeys and self.action_logs:
             logger.error("Could not get object for reverse operations.")
             raise ValueError("Could not get object for reverse operations.")
@@ -362,7 +424,7 @@ class DefaultOrganizer:
                 if count >= self.reverse_count:
                     return
 
-    def default_generate_groups(self, groups, sep_nums):
+    def default_generate_groups(self, groups: int, sep_nums: bool) -> None:
         """
         Generates a dictionary of characters and their appropriate groups
         where a group is of the format a0-a1 where a0 is a character
@@ -370,12 +432,12 @@ class DefaultOrganizer:
         boundary, Each group represents all characters between a0 and a1 for
         alphabets and all numbers between a0 and a1 for numbers.
 
-        'groups' argument states the number of groups each class (alphas
-         and nums) be divided into.
+        :param groups: The number of groups each class (alphas
+                       and nums) will be divided into.
 
-        'sep_nums' argument specifies whether all numbers should be contained
-         in one group 0-9 or seperated into
-        multiple groups as determined by groups
+        :param sep_nums: Specifies whether all numbers should be contained
+                         in one group 0-9 or seperated into multiple groups
+                        as determined by groups
         """
         alphas = "abcdefghijklmnopqrstuvwxyz"
         nums = "1234567890"
@@ -404,14 +466,22 @@ class DefaultOrganizer:
 
     def default_generate_destination_alphabetic(
         self,
-        path,
-        groups=5,
-        destination_dir=".",
-        sep_nums=False,
-        nomatchpath=""
-    ):
+        path: pathlib.Path,
+        groups: int = 5,
+        destination_dir: pathlib.Path = ".",
+        sep_nums: bool = False,
+        nomatchpath: pathlib.Path = ""
+    ) -> pathlib.Path:
         """
-        Generate destination folder based on alphabetic ordering
+        Generate destination folder based on alpha-numerical ordering
+
+        :param path: file path
+        :param groups: Number of groups
+        :param destination_dir: destination directory
+        :param sep_nums: Specifies whether all numbers should be contained
+                         in one group 0-9 or seperated into multiple groups
+                         as determined by groups
+        :param nomatchpath: folder to assign non matching files to
         """
         path = path.lower()
         destination_dir = destination_dir.rstrip("/")
@@ -424,7 +494,11 @@ class DefaultOrganizer:
         fullpath = pth.join(destination_dir, path)
         return fullpath
 
-    def default_copy(self, from_, to, move=False, overwrite=False):
+    def default_copy(self,
+                     from_: pathlib.Path,
+                     to: pathlib.Path,
+                     move: bool = False,
+                     overwrite: bool = False) -> Union[int, pathlib.Path]:
         """
         Copy files from 'from_' to 'to'.
         Set move to True to move instead of copy
@@ -454,7 +528,7 @@ class DefaultOrganizer:
             logger.exception("Could not move %s to %s: %s" % (from_, to, e))
             return -1
 
-    def default_walk_dir_recursive(self, dir=".", extensions=""):
+    def default_walk_dir_recursive(self, dir: pathlib.Path = ".", extensions: str = ""):
         """
         Recursively walk directory 'dir' and generate the files found.
         """
@@ -473,9 +547,14 @@ class DefaultOrganizer:
                         continue
                 yield pth.join(root, name)
 
-    def default_walk_dir(self, dir=".", extensions=""):
+    def default_walk_dir(self,
+                         dir=".",
+                         extensions: List[str] = []) -> Generator[str, None, None]:
         """
         Return the content of 'dir'
+
+        :param dir: directory of walk
+        :param extensions: List of allowed extensions
         """
         content = os.listdir(dir)
         files = filter(lambda x: pth.isfile(pth.join(dir, x)), content)
@@ -493,10 +572,17 @@ class DefaultOrganizer:
                     continue
             yield fname
 
-    def default_rename(self, from_, to, copy=False, overwrite=False):
+    def default_rename(self,
+                       from_: pathlib.Path,
+                       to: pathlib.Path,
+                       copy: bool = False,
+                       overwrite: bool = False) -> Union[int, pathlib.Path]:
         """
-        Rename 'from_' to  'to'.
-        If 'copy' is True a copy is made with the new name instead instead
+        Rename file
+
+        :param from_: file path
+        :param to: destination
+        :param copy:  if True a copy is made with the new name instead
         """
         if pth.exists(to) and not overwrite:
             return -1
@@ -512,24 +598,35 @@ class DefaultOrganizer:
         return to
 
     @staticmethod
-    def default_fuzzy_search(search, filepath, min_ratio=70):
+    def default_fuzzy_search(search, filepath, min_ratio=70) -> bool:
         """
         Levenshtein fuzzy search
+
+        :param search: search string
+        :param filepath: file path
+        :param min_ratio: min ratio
         """
-        string = pth.split(filepath)[1]
+        stem = pth.split(filepath)[1]
         if not search:
             return True
         if isinstance(search, str):
-            ratio = fuzz.partial_token_set_ratio(search, filepath)
+            ratio = fuzz.partial_token_set_ratio(search, stem)
 
             return True if ratio >= min_ratio else False
 
-    def default_simple_search(self, search, filepath, m=0):
-        string = pth.split(filepath)[1]
+    def default_simple_search(self, search, filepath) -> bool:
+        """
+        Simple text matching
+
+        :param search: search string
+        :param filepath: file path
+        :param min_ratio: min ratio
+        """
+        stem = pth.split(filepath)[1]
         if not search:
             return True
         if self.case_sensitive:
-            i = re.search(search, filepath)
+            i = re.search(search, stem)
         else:
-            i = re.search(search, filepath, re.I)
+            i = re.search(search, stem, re.I)
         return True if i else False

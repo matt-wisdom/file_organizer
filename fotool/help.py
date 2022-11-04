@@ -41,7 +41,7 @@ nomatchdir_help = """Directory to copy or move files to if no match is found.
 """
 
 action_help = """The action to carry out on matched files, valid options are:
-print, move, copy_rename, rename, copy.  Defaults to print. You can also 
+print, move, copy_rename, rename, copy.  Defaults to print. You can also
 add custom actions in extensions
 """
 

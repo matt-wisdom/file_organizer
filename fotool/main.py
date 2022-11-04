@@ -1,6 +1,7 @@
 import os
 import os.path as pth
-from fotool.extensions import get_extension_doc, install_extension, list_extensions, parse_extension
+from fotool.extensions import get_extension_doc, install_extension
+from fotool.extensions import list_extensions, parse_extension
 
 
 from fotool.help import *
@@ -12,7 +13,10 @@ from . import logger
 extension = []
 
 
-def run(app_class=DefaultOrganizer, **kwargs):
+def run(app_class: DefaultOrganizer = DefaultOrganizer, **kwargs) -> None:
+    """
+        Run app
+    """
     global app
     match_count = 0
     operations_count = 0
@@ -21,11 +25,11 @@ def run(app_class=DefaultOrganizer, **kwargs):
     rtstart = kwargs.get("rtstart")
     regex = kwargs.get("regex")
     rtstop = kwargs.get("rtstop")
-    
+
     if kwargs.get("extension"):
         app_class = parse_extension(kwargs.get("extension"))
     action_log = kwargs.get("action_log")
-    
+
     reverse = kwargs.get("reverse")
     if reverse:
         action_log = reverse
@@ -75,7 +79,7 @@ def run(app_class=DefaultOrganizer, **kwargs):
         "comb": getattr(app, "default_gen_new_name_combination"),
         "regex": getattr(app, "default_gen_new_name_regex"),
     }
-    
+
     name_gen = name_gens.get(kwargs.get("name_gen"))
     app.case_sensitive = kwargs.get("case_sensitive")
     if fileextensions:
@@ -108,7 +112,13 @@ def run(app_class=DefaultOrganizer, **kwargs):
     logger.info("Finding...")
     for file in generate_files_function(
             working_dir, extensions=fileextensions):
-        if match_function(search, file, min_ratio):
+
+        if simple_match:
+            matched = match_function(search, file)
+        else:
+            matched = match_function(search, file, min_ratio)
+
+        if matched:
             match_count += 1
             if opcount:
                 if opcount <= match_count - 1:
@@ -184,10 +194,13 @@ def donothing():
     pass
 
 
-def main():
+def main() -> None:
+    """
+        Parse args and run app
+    """
     try:
         args = parser.parse_args()
-        
+
         ext = args.list_extensions
         if ext:
             print("\n".join(list_extensions()))
@@ -198,7 +211,7 @@ def main():
         if ext:
             install_extension(ext)
             return
-        
+
         ext = args.get_extension_help
         if ext:
             print(f"\nEXTENSION: {ext}\n\t{get_extension_doc(ext)}")

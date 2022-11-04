@@ -3,14 +3,16 @@
 """
 
 allowed = ["txt", "html", "py", "rb", "pl", "js", "css", "htm", "c", "rtf", "md"]
+
+
 class Extension:
-    def simple_search(self, search, filepath, m=0):
+    def simple_search(self, search, filepath):
         """
             Act on doc files
         """
         try:
             res = self.default_get_file_type(filepath)
-        except:
+        except Exception:
             return False
         if not res:
             return False
@@ -18,7 +20,7 @@ class Extension:
         if res[0] in allowed:
             return True
         return False
-    
+
     def action(self, from_, to="", action="print"):
         if action == "print":
             for i, line_str in enumerate(open(from_).readlines()):
