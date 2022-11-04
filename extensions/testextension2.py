@@ -1,7 +1,7 @@
 from fotool.organizer import DefaultOrganizer
 
 
-class WrongExtension(DefaultOrganizer):
+class RandomExtension(DefaultOrganizer):
     def copy(self, from_, to, move=False, overwrite=False):
         return super().default_copy(from_, to, move, overwrite)
 

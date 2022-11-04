@@ -1,3 +1,4 @@
+#!/usr/bin/py
 from fotool.main import main
 
 if __name__ == "__main__":

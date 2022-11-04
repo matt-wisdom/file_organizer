@@ -14,7 +14,7 @@ recognize_types = ("py, html, htm, css, js, cpp, c, rb, pl, php, r, go,"
                    "flv, swf, mid, mp3, m4a, ogg, flac, wav, amr, zip, tar,"
                    "rar, gz, bz2, 7z, xz, ar, deb, z, lz, exe, cab, pyc, jar,"
                    "pdf, docx, doc, ppt, pptx, epub, rtf, txt, ps, woff,"
-                   "woff2, ttf, otf")
+                   "woff2, ttf, otf, md")
 
 num = len(recognize_types.split(","))
 filetypehelp = f"""Only match files of the path type(s)/extension(s) given.
@@ -41,7 +41,8 @@ nomatchdir_help = """Directory to copy or move files to if no match is found.
 """
 
 action_help = """The action to carry out on matched files, valid options are:
-print, move, copy_rename, rename, copy.  Defaults to print.
+print, move, copy_rename, rename, copy.  Defaults to print. You can also 
+add custom actions in extensions
 """
 
 initials_help = """Use initials of filenames to generate groups.
@@ -75,3 +76,7 @@ this timestamp.
 If reverse-timestamp-start is specified, then operations carried out between
 reverse-timestamp-start and reverse-timestamp-stop are reversed
 """
+
+install_extension_help = """Install a file as an extension"""
+
+list_extensions_help = """List installed extensions"""

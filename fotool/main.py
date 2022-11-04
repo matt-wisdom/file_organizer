@@ -1,6 +1,7 @@
-import importlib
 import os
 import os.path as pth
+from fotool.extensions import get_extension_doc, install_extension, list_extensions, parse_extension
+
 
 from fotool.help import *
 from fotool.organizer import DefaultOrganizer
@@ -11,44 +12,20 @@ from . import logger
 extension = []
 
 
-def parse_extension(extension):
-    """
-    Parse extension argument value and return extension class
-    """
-
-    if ":" in extension:
-        # Parser for when custom class name is used for extension in the format
-        #  'modulename:class_name'
-        module, classname = extension.split(":")
-        try:
-            imported = importlib.import_module(f"extensions.{module}")
-            return getattr(imported, classname)
-        except (AttributeError, ModuleNotFoundError):
-            logger.error("Could not load extension " + extension)
-    # Default extension class name is 'Extension'
-    else:
-        try:
-            imported = importlib.import_module(f"extensions.{extension}")
-            try:
-                return getattr(imported, "Extension")
-            except AttributeError:
-                logger.error(
-                    "Could not find extension class in " + str(extension))
-        except Exception as e:
-            logger.error("Could not load extension " + str(e))
-
-
 def run(app_class=DefaultOrganizer, **kwargs):
     global app
     match_count = 0
     operations_count = 0
+
     opcount = kwargs.get("opcount")
     rtstart = kwargs.get("rtstart")
     regex = kwargs.get("regex")
     rtstop = kwargs.get("rtstop")
+    
     if kwargs.get("extension"):
         app_class = parse_extension(kwargs.get("extension"))
     action_log = kwargs.get("action_log")
+    
     reverse = kwargs.get("reverse")
     if reverse:
         action_log = reverse
@@ -73,6 +50,7 @@ def run(app_class=DefaultOrganizer, **kwargs):
         getattr(app, "default_generate_destination_type"),
     )
     others_gen = getattr(app, "generate_destination_others", "")
+
     dgens = {
         "initials": getattr(app, "default_generate_destination_alphabetic"),
         "group": group_gen,
@@ -92,10 +70,12 @@ def run(app_class=DefaultOrganizer, **kwargs):
     min_ratio = kwargs.get("min_ratio", 70)
     fileextensions = kwargs.get("fileextensions")
     search = kwargs.get("search", "")
+
     name_gens = {
         "comb": getattr(app, "default_gen_new_name_combination"),
         "regex": getattr(app, "default_gen_new_name_regex"),
     }
+    
     name_gen = name_gens.get(kwargs.get("name_gen"))
     app.case_sensitive = kwargs.get("case_sensitive")
     if fileextensions:
@@ -207,6 +187,22 @@ def donothing():
 def main():
     try:
         args = parser.parse_args()
+        
+        ext = args.list_extensions
+        if ext:
+            print("\n".join(list_extensions()))
+            return
+
+        # Install extension if present and exit
+        ext = args.install_extension
+        if ext:
+            install_extension(ext)
+            return
+        
+        ext = args.get_extension_help
+        if ext:
+            print(f"\nEXTENSION: {ext}\n\t{get_extension_doc(ext)}")
+            return
 
         if args.group:
             dgen = "group"
@@ -253,9 +249,12 @@ def main():
         }
         run(**run_args)
     except Exception as e:
-        print("Tidying up...", e)
-        if app.reversible:
-            try:
-                app.default_write_action_log()
-            except Exception as e:
-                logger.error("Could not write to action log." + str(e))
+        logger.error(e)
+        try:
+            if app.reversible:
+                try:
+                    app.default_write_action_log()
+                except Exception as e:
+                    logger.error("Could not write to action log." + str(e))
+        except NameError:
+            pass

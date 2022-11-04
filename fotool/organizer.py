@@ -116,6 +116,7 @@ class DefaultOrganizer:
         "htm": "HTML File",
         "html": "HTML File",
         "xhtml": "XHTML File",
+        "md": "Markdown File"
     }
 
     def __init__(
@@ -165,6 +166,8 @@ class DefaultOrganizer:
             reverse_method = getattr(self, "reverse", self.default_reverse)
             reverse_method()
             return
+        
+        self.extra_attr = {}
 
     def default_write_action_log(self):
         if not self.reversible:
@@ -509,24 +512,24 @@ class DefaultOrganizer:
         return to
 
     @staticmethod
-    def default_fuzzy_search(search, string, min_ratio=70):
+    def default_fuzzy_search(search, filepath, min_ratio=70):
         """
         Levenshtein fuzzy search
         """
-        string = pth.split(string)[1]
+        string = pth.split(filepath)[1]
         if not search:
             return True
         if isinstance(search, str):
-            ratio = fuzz.partial_token_set_ratio(search, string)
+            ratio = fuzz.partial_token_set_ratio(search, filepath)
 
             return True if ratio >= min_ratio else False
 
-    def default_simple_search(self, search, string, m=0):
-        string = pth.split(string)[1]
+    def default_simple_search(self, search, filepath, m=0):
+        string = pth.split(filepath)[1]
         if not search:
             return True
         if self.case_sensitive:
-            i = re.search(search, string)
+            i = re.search(search, filepath)
         else:
-            i = re.search(search, string, re.I)
+            i = re.search(search, filepath, re.I)
         return True if i else False

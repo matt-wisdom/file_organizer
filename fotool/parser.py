@@ -183,3 +183,26 @@ parser.add_argument(
     dest="fileextensions",
     help=filetypehelp
 )
+
+parser.add_argument(
+    "--install-extension",
+    action="store",
+    metavar="EXTENSION_NAME",
+    dest="install_extension",
+    help=install_extension_help
+)
+
+parser.add_argument(
+    "--list-extensions",
+    dest="list_extensions",
+    action="store_true",
+    help=list_extensions_help
+)
+
+parser.add_argument(
+    "--extension-help",
+    dest="get_extension_help",
+    action="store",
+    metavar="EXTENSION_NAME",
+    help="""View an extension module docstring"""
+)
