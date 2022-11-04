@@ -2,6 +2,9 @@
 ![test_status](https://github.com/matt-wisdom/file_organizer/actions/workflows/main.yml/badge.svg?event=push)
 
 ## Installation
+```bash
+pip install fotools
+```
 
 
 ## Features
