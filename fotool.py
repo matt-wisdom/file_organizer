@@ -1,4 +1,4 @@
-#!/usr/bin/py
+#!/usr/bin/env python3
 from fotool.main import main
 
 if __name__ == "__main__":
