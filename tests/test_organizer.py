@@ -162,11 +162,11 @@ def test_default_generate_destination_group_nomatch(file):
 def test_default_generate_destination_group_nomatch_dd(file):
     org = organizer.DefaultOrganizer(reversible=True)
     nomatchdir = pathlib.Path("[:dd:]") / "nomatch"
-    assert f"{sep}home" + samples_files_groups.get(file, f"{sep}nomatch").replace(
+    assert samples_files_groups.get(file, f"{sep}nomatch").replace(
         ".", ""
     ) == org.default_generate_destination_group(
         file, f"{sep}home", nomatchdir=str(nomatchdir)
-    )
+    ).replace(".", "")
 
 
 def test_default_copy():
