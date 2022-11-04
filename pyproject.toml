@@ -1,9 +1,15 @@
 [tool.poetry]
-name = "file_organizer_tools"
+name = "fotool"
 version = "0.1.0"
 description = "Tool for searching and organizing files"
 authors = ["Matthew Wisdom <matthewwisdom11@gmail.com>"]
 license = "MIT License"
+packages = [
+    { include = "fotool" }
+]
+readme = "README.md"
+repository = "https://github.com/matt-wisdom/file_organizer"
+
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -23,3 +29,6 @@ pcloud = "^1.0"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+fotool = 'fotool.main:main'
