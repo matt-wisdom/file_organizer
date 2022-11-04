@@ -255,7 +255,7 @@ They are:
 ## USAGE
 
 <pre>
-usage: fotool.py [-h] [-s SEARCH_STRING] [-e EXTENSION] [-d DIRECTORY] [-z DESTINATION] [-m MIN_RATIO] [-b GROUPS] [-n NOMATCHDIR] [-a ACTION]
+usage: fotools.py [-h] [-s SEARCH_STRING] [-e EXTENSION] [-d DIRECTORY] [-z DESTINATION] [-m MIN_RATIO] [-b GROUPS] [-n NOMATCHDIR] [-a ACTION]
                  [-r] [-q] [-k] [-j [REVERSE]] [-p ACTION_LOG] [-u OPCOUNT] [--reverse-timestamp-start RTSTART]
                  [--reverse-timestamp-stop RTSTOP] [-l | -f] [-i | -g | -t] [-w] [-c | -x GEN_REGEX] [-y FILEEXTENSIONS]
                  [--install-extension EXTENSION_NAME] [--list-extensions] [--extension-help EXTENSION_NAME]

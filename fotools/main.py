@@ -2,7 +2,7 @@ import os
 import os.path as pth
 
 from fotools.extensions import (get_extension_doc, install_extension,
-                               list_extensions, parse_extension)
+                                list_extensions, parse_extension)
 from fotools.help import *
 from fotools.organizer import DefaultOrganizer
 from fotools.parser import parser

@@ -7,7 +7,7 @@ import time
 
 import pytest
 
-from fotool import organizer
+from fotools import organizer
 
 sep = os.path.sep
 samples_base = pathlib.Path(f"tests{sep}samples")

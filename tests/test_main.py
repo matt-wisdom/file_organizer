@@ -1,3 +1,3 @@
-from fotool import main
+from fotools import main
 
 # TODO: Add more tests

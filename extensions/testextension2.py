@@ -1,4 +1,4 @@
-from fotool.organizer import DefaultOrganizer
+from fotools.organizer import DefaultOrganizer
 
 
 class RandomExtension(DefaultOrganizer):
