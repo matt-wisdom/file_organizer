@@ -215,8 +215,7 @@ wisdom@wisdom:~/yun/files$ tree
 1 directory, 22 files
 </pre>
 
-
-##Extending fotools  
+#Extending fotools  
 To extend fotools, all you need do is create a python file  
 and define an extension class with its name ending with Extension  
 eg `class DeleteExtension:`.  
