@@ -1,8 +1,3 @@
-from fotool import main, organizer
-
-
-def test_do_nothing():
-    assert main.donothing() is None
-
+from fotool import main
 
 # TODO: Add more tests

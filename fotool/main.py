@@ -138,9 +138,11 @@ def run(app_class: DefaultOrganizer = DefaultOrganizer, **kwargs) -> None:
                     )
                 )
                 if des:
-                    os.makedirs(des) if not pth.exists(des) and des\
-                        else donothing()
+                    if not pth.exists(des) and des:
+                        os.makedirs(des)
+                        app.default_action(des, "", "create_dir")
                     if name_gen:
+                        print("NG", name_gen)
                         filename = pth.split(file)[1]
                         des = pth.join(
                             des,
@@ -188,10 +190,6 @@ def run(app_class: DefaultOrganizer = DefaultOrganizer, **kwargs) -> None:
         "Matches-%d items / Operations-%d operations"
         % (match_count, operations_count)
     )
-
-
-def donothing():
-    pass
 
 
 def main() -> None:
