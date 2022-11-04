@@ -185,6 +185,10 @@ class DefaultOrganizer:
             return False
         logger.info("Writing to action log.")
         content = marshal.dumps(self.action_logs)
+        try:
+            self.action_log_obj = open(self.action_log_file, "rb+")
+        except FileNotFoundError:
+            self.action_log_obj = open(self.action_log_file, "wb+")
         self.action_log_obj.write(content)
         self.action_log_obj.flush()
         logger.info("Finished writing to log.")
@@ -302,6 +306,7 @@ class DefaultOrganizer:
 
     def default_generate_destination_group(self,
                                            filename: pathlib.Path,
+                                           groups: int = None,
                                            destination_dir: pathlib.Path = ".",
                                            nomatchdir: pathlib.Path = "") -> pathlib.Path:
         """
@@ -328,7 +333,7 @@ class DefaultOrganizer:
     def default_generate_destination_type(self,
                                           filename: pathlib.Path,
                                           destination_dir: pathlib.Path = ".",
-                                          _=5,
+                                          groups=5,
                                           nomatchdir: pathlib.Path = "") -> pathlib.Path:
         """
         Generates directory based on file type and returns nomatchpath for
@@ -370,6 +375,8 @@ class DefaultOrganizer:
             print(from_)
             if self.newline:
                 print("")
+        elif action == "create_dir":
+            self.default_add_to_log(action, from_, to)
         else:
             logger.error(
                 f"Action {action} is invalid. Valid options are: copy, \
@@ -384,6 +391,15 @@ class DefaultOrganizer:
         ):  # No need to log print action as no change is made
             self.default_add_to_log(action, from_, to)
         return out
+
+    def _reverse(self, to, from_, action):
+        try:
+            if action == "create_dir":
+                os.rmdir(from_)
+            else:
+                self.default_action(to, from_, action)
+        except Exception:
+            pass
 
     def default_reverse(self) -> None:
         """
@@ -401,18 +417,18 @@ class DefaultOrganizer:
             fl = float(i)
             if tstart and not tstop:
                 if fl >= tstart:
-                    self.default_action(to, from_, action)
+                    self._reverse(to, from_, action)
                     tookaction = True
             elif tstop and not tstart:
                 if fl <= tstop:
-                    self.default_action(to, from_, action)
+                    self._reverse(to, from_, action)
                     tookaction = True
             elif tstart and tstop:
                 if fl >= tstart and fl <= tstop:
-                    self.default_action(to, from_, action)
+                    self._reverse(to, from_, action)
                     tookaction = True
             else:
-                self.default_action(to, from_, action)
+                self._reverse(to, from_, action)
                 tookaction = True
             if (
                 self.reversible and action != "print" and tookaction
@@ -533,7 +549,7 @@ class DefaultOrganizer:
         Recursively walk directory 'dir' and generate the files found.
         """
         for root, dirs, files in os.walk(dir, topdown=True):
-            for name in files:  # +dirs:
+            for name in files:
                 if extensions:
                     fname = pth.join(root, name)
                     try:
