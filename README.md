@@ -102,7 +102,7 @@ We'll start simple.
     └── <font color="#C3D82C"><b>jquery.js</b></font>
 </pre>
 
-**To reverse the above action or any action that's happened in this folder**
+<b>To reverse the above action or any action that's happened in this folder</b>
 <pre>
 wisdom@wisdom:~/yun/files$ fotool -j 
 /home/wisdom/yun/files/RSS.png
@@ -148,7 +148,7 @@ wisdom@wisdom:~/yun/files$ tree
 └── webdes.jpg
 </pre>
 
-** To organize by file types **
+<b>To organize by file types</b>
 <pre><font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ fotool -a move -r -t
 <font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ tree
 <font color="#42A5F5"><b>.</b></font>
@@ -184,7 +184,7 @@ wisdom@wisdom:~/yun/files$ tree
     └── <font color="#C3D82C"><b>Roboto.zip</b></font>
 </pre>
 
-**To remove roboto from the font names**
+<b>To remove roboto from the font names</b>
 <pre><font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ fotool -a move -r -x &quot;(?&lt;=Roboto)(.*)&quot; -s &quot;roboto&quot; -z fonts/
 <font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ tree
 <font color="#42A5F5"><b>.</b></font>
