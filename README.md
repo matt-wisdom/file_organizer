@@ -1,5 +1,258 @@
 # fileorg_tool
 ![test_status](https://github.com/matt-wisdom/file_organizer/actions/workflows/main.yml/badge.svg?event=push)
+
+
+## Features
+fotools is an extensible file searching and organization tool.  
+It can help you:
+ 1. Organize your files into alphabetic groups e.g a-e, f-z
+ 2. Organize your files by file type e.g pdf, html, mpeg files
+ 3. Organize your files by type groups e.g Source codes, Audio, Videos, Documents
+ 4. Search for files using fuzzy search with tunable ratio
+ 5. Rename files using regex extracted part from their names
+ 6. Reverse the above actions.
+
+## Examples
+
+Lets examine some scenarios where thi program will be useful.  
+Say we have the following folder structure.
+```
+files
+├── bg2.jpg
+├── bg4.jpg
+├── bg5.jpg
+├── bg.jpg
+├── blog.js
+├── elf.png
+├── facebook.png
+├── favicon.ico
+├── fonts
+│   ├── 1.jpg
+│   ├── 2.jpg
+│   ├── adventpro.ttf
+│   ├── LICENSE.txt
+│   ├── logo.png
+│   ├── luckiest-guy.zip
+│   ├── Roboto-BlackItalic.ttf
+│   └── Roboto-Black.ttf
+├── jquery.js
+├── photo1.jpg
+├── Roboto.zip
+├── RSS.png
+├── sunset.png
+└── webdes.jpg
+
+```
+We'll start simple.
+
+**To list all png/jpg files**
+<pre><font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ fotool.py -y png,jpg -r 
+/home/wisdom/yun/files/RSS.png
+/home/wisdom/yun/files/bg.jpg
+/home/wisdom/yun/files/webdes.jpg
+/home/wisdom/yun/files/elf.png
+/home/wisdom/yun/files/bg4.jpg
+/home/wisdom/yun/files/bg5.jpg
+/home/wisdom/yun/files/bg2.jpg
+/home/wisdom/yun/files/sunset.png
+/home/wisdom/yun/files/photo1.jpg
+/home/wisdom/yun/files/favicon.ico
+/home/wisdom/yun/files/facebook.png
+/home/wisdom/yun/files/fonts/1.jpg
+/home/wisdom/yun/files/fonts/2.jpg
+/home/wisdom/yun/files/fonts/logo.png</pre>
+
+**To use fuzzy search to find "LCENSE"**
+<pre><font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ fotool.py -s LCENSE -r
+/home/wisdom/yun/files/fonts/LICENSE.txt
+</pre>
+
+**To organize the files into groups**
+<pre><font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ fotool -a move -r -g
+<font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ tree
+<font color="#42A5F5"><b>.</b></font>
+├── action_log
+├── <font color="#42A5F5"><b>Archives</b></font>
+│   ├── <font color="#C3D82C"><b>luckiest-guy.zip</b></font>
+│   └── <font color="#C3D82C"><b>Roboto.zip</b></font>
+├── <font color="#42A5F5"><b>Documents</b></font>
+│   └── <font color="#C3D82C"><b>LICENSE.txt</b></font>
+├── <font color="#42A5F5"><b>fonts</b></font>
+├── <font color="#42A5F5"><b>Fonts</b></font>
+│   ├── <font color="#C3D82C"><b>adventpro.ttf</b></font>
+│   ├── <font color="#C3D82C"><b>Roboto-BlackItalic.ttf</b></font>
+│   └── <font color="#C3D82C"><b>Roboto-Black.ttf</b></font>
+├── <font color="#42A5F5"><b>Images</b></font>
+│   ├── <font color="#C3D82C"><b>1.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>2.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>bg2.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>bg4.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>bg5.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>bg.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>elf.png</b></font>
+│   ├── <font color="#C3D82C"><b>facebook.png</b></font>
+│   ├── <font color="#C3D82C"><b>favicon.ico</b></font>
+│   ├── <font color="#C3D82C"><b>logo.png</b></font>
+│   ├── <font color="#C3D82C"><b>photo1.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>RSS.png</b></font>
+│   ├── <font color="#C3D82C"><b>sunset.png</b></font>
+│   └── <font color="#C3D82C"><b>webdes.jpg</b></font>
+└── <font color="#42A5F5"><b>Source_Codes</b></font>
+    ├── <font color="#C3D82C"><b>blog.js</b></font>
+    └── <font color="#C3D82C"><b>jquery.js</b></font>
+</pre>
+
+**To reverse the above action or any action that's happened in this folder**
+<pre>
+wisdom@wisdom:~/yun/files$ fotool -j 
+/home/wisdom/yun/files/RSS.png
+/home/wisdom/yun/files/bg.jpg
+/home/wisdom/yun/files/webdes.jpg
+/home/wisdom/yun/files/elf.png
+/home/wisdom/yun/files/bg4.jpg
+/home/wisdom/yun/files/bg5.jpg
+/home/wisdom/yun/files/bg2.jpg
+/home/wisdom/yun/files/sunset.png
+/home/wisdom/yun/files/blog.js
+/home/wisdom/yun/files/action_log
+/home/wisdom/yun/files/jquery.js
+/home/wisdom/yun/files/photo1.jpg
+/home/wisdom/yun/files/Roboto.zip
+/home/wisdom/yun/files/favicon.ico
+/home/wisdom/yun/files/facebook.png
+wisdom@wisdom:~/yun/files$ tree
+.
+├── action_log
+├── bg2.jpg
+├── bg4.jpg
+├── bg5.jpg
+├── bg.jpg
+├── blog.js
+├── elf.png
+├── facebook.png
+├── favicon.ico
+├── fonts
+│   ├── 1.jpg
+│   ├── 2.jpg
+│   ├── adventpro.ttf
+│   ├── LICENSE.txt
+│   ├── logo.png
+│   ├── luckiest-guy.zip
+│   ├── Roboto-BlackItalic.ttf
+│   └── Roboto-Black.ttf
+├── jquery.js
+├── photo1.jpg
+├── Roboto.zip
+├── RSS.png
+├── sunset.png
+└── webdes.jpg
+</pre>
+
+** To organize by file types **
+<pre><font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ fotool -a move -r -t
+<font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ tree
+<font color="#42A5F5"><b>.</b></font>
+├── action_log
+├── <font color="#42A5F5"><b>fonts</b></font>
+├── <font color="#42A5F5"><b>FONT-SFNT Files</b></font>
+│   ├── <font color="#C3D82C"><b>adventpro.ttf</b></font>
+│   ├── <font color="#C3D82C"><b>Roboto-BlackItalic.ttf</b></font>
+│   └── <font color="#C3D82C"><b>Roboto-Black.ttf</b></font>
+├── <font color="#42A5F5"><b>Javascript Source Files</b></font>
+│   ├── <font color="#C3D82C"><b>blog.js</b></font>
+│   └── <font color="#C3D82C"><b>jquery.js</b></font>
+├── <font color="#42A5F5"><b>JPEG Files</b></font>
+│   ├── <font color="#C3D82C"><b>1.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>2.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>bg2.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>bg4.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>bg5.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>bg.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>photo1.jpg</b></font>
+│   └── <font color="#C3D82C"><b>webdes.jpg</b></font>
+├── <font color="#42A5F5"><b>PNG Files</b></font>
+│   ├── <font color="#C3D82C"><b>elf.png</b></font>
+│   ├── <font color="#C3D82C"><b>facebook.png</b></font>
+│   ├── <font color="#C3D82C"><b>favicon.ico</b></font>
+│   ├── <font color="#C3D82C"><b>logo.png</b></font>
+│   ├── <font color="#C3D82C"><b>RSS.png</b></font>
+│   └── <font color="#C3D82C"><b>sunset.png</b></font>
+├── <font color="#42A5F5"><b>Text File</b></font>
+│   └── <font color="#C3D82C"><b>LICENSE.txt</b></font>
+└── <font color="#42A5F5"><b>ZIP Files</b></font>
+    ├── <font color="#C3D82C"><b>luckiest-guy.zip</b></font>
+    └── <font color="#C3D82C"><b>Roboto.zip</b></font>
+</pre>
+
+**To remove roboto from the font names**
+<pre><font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ fotool -a move -r -x &quot;(?&lt;=Roboto)(.*)&quot; -s &quot;roboto&quot; -z fonts/
+<font color="#C3D82C"><b>wisdom@wisdom</b></font>:<font color="#42A5F5"><b>~/yun/files</b></font>$ tree
+<font color="#42A5F5"><b>.</b></font>
+├── action_log
+├── <font color="#C3D82C"><b>bg2.jpg</b></font>
+├── <font color="#C3D82C"><b>bg4.jpg</b></font>
+├── <font color="#C3D82C"><b>bg5.jpg</b></font>
+├── <font color="#C3D82C"><b>bg.jpg</b></font>
+├── <font color="#C3D82C"><b>blog.js</b></font>
+├── <font color="#C3D82C"><b>elf.png</b></font>
+├── <font color="#C3D82C"><b>facebook.png</b></font>
+├── <font color="#C3D82C"><b>favicon.ico</b></font>
+├── <font color="#42A5F5"><b>fonts</b></font>
+│   ├── <font color="#C3D82C"><b>1.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>2.jpg</b></font>
+│   ├── <font color="#C3D82C"><b>adventpro.ttf</b></font>
+│   ├── <font color="#C3D82C"><b>-BlackItalic.ttf</b></font>
+│   ├── <font color="#C3D82C"><b>-Black.ttf</b></font>
+│   ├── <font color="#C3D82C"><b>LICENSE.txt</b></font>
+│   ├── <font color="#C3D82C"><b>logo.png</b></font>
+│   └── <font color="#C3D82C"><b>luckiest-guy.zip</b></font>
+├── <font color="#C3D82C"><b>jquery.js</b></font>
+├── <font color="#C3D82C"><b>photo1.jpg</b></font>
+├── <font color="#C3D82C"><b>RSS.png</b></font>
+├── <font color="#C3D82C"><b>sunset.png</b></font>
+└── <font color="#C3D82C"><b>webdes.jpg</b></font>
+
+1 directory, 22 files
+</pre>
+
+
+##Extending fotools  
+To extend fotools, all you need do is create a python file  
+and define an extension class with its name ending with Extension  
+eg `class DeleteExtension:`.  
+Then run   
+```sh
+        fotool.py --install-extension /path/to/extension.py
+```
+To extend a function simply create a similar method with name similar to that 
+of the method name without the 'default_' prepended to it e.g `default_fuzzy_search`
+becomes `fuzzy_search`.  
+To use the extension simply supply the `-e` or `--extension argument` with the value set
+to the filename without .py.  
+You can list installed extensions with the  `--list-extensions` flag
+This program comes with some extensions (in the extensions folder") 
+which you use as reference.
+They are:  
+       
+ 1. **delete** - Adds delete command to the `-a` flag.   
+    Example usage:  
+        ```sh
+            fotool.py -e delete -a delete -s "__pycache__" -l
+        ```  
+        
+ 2. **search_contents** - Search the content of allowed types.  
+    See search_contents.py for the list of allowed types  
+        Example usage:  
+        ```sh
+            fotool.py -e search_contents -s "william shakespeare" -r
+        ```  
+        
+ 3. **pcloud_upload** - Uploads matching files to pcloud.  
+    Requires PCLOUD_USER and PCLOUD_PASS environment variables  
+    to be set.  
+
+## USAGE
+
 <pre>
 usage: fotool.py [-h] [-s SEARCH_STRING] [-e EXTENSION] [-d DIRECTORY] [-z DESTINATION] [-m MIN_RATIO] [-b GROUPS] [-n NOMATCHDIR] [-a ACTION]
                  [-r] [-q] [-k] [-j [REVERSE]] [-p ACTION_LOG] [-u OPCOUNT] [--reverse-timestamp-start RTSTART]
@@ -69,19 +322,4 @@ optional arguments:
   --list-extensions     List installed extensions
   --extension-help EXTENSION_NAME
                         View an extension module docstring
-             
-##Extending fotools  
-To extend fotools, all you need do is create a python file in the extensions folder
-with a class named 'Extension' or whatever you want, import and inherit the 
-DefaultOrganizer class  from organizer.py and create methods for whatever feature you 
-need to extend.
-To extend a method simply create a similar method with name similar to that 
-of the method name without the 'default_' prepended to it e.g 'default_fuzzy_search'
-becomes 'fuzzy_search'.
-To use the extension simply supply the -e or --extension argument with the value set
-to the importable module if the extension class is named 'Extension' else prepend a
-semicolon to the custom class name and append it to the module name.
-E.G if the module is named 'myextension.py' in the current working directory and the
-classname is 'ReverseExtension' then the value to -e (or --extension) is 
-'myextension:ReverseExtension'.
-
+</pre>
