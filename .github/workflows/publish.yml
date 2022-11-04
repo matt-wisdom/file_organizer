@@ -28,12 +28,12 @@ jobs:
         run: poetry run pytest --cov=./ --cov-report=xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
-#   deploy:
-#     runs-on: ubuntu-latest
-#     needs: test
-#     steps:
-#       - name: Build and publish to pypi
-#         uses: JRubics/poetry-publish@v1.13
-#         with:
-#           pypi_token: ${{ secrets.PYPI_TOKEN }}
-#           ignore_dev_requirements: "yes"
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Build and publish to pypi
+        uses: JRubics/poetry-publish@v1.13
+        with:
+          pypi_token: ${{ secrets.PYPI_TOKEN }}
+          ignore_dev_requirements: "yes"
