@@ -220,8 +220,8 @@ To extend fotools, all you need do is create a python file
 and define an extension class with its name ending with Extension  
 eg `class DeleteExtension:`.  
 Then run   
-```sh
-        fotool.py --install-extension /path/to/extension.py
+```bash
+fotool.py --install-extension /path/to/extension.py
 ```
 To extend a function simply create a similar method with name similar to that 
 of the method name without the 'default_' prepended to it e.g `default_fuzzy_search`
@@ -235,15 +235,15 @@ They are:
        
  1. **delete** - Adds delete command to the `-a` flag.   
     Example usage:  
-        ```sh
-            fotool.py -e delete -a delete -s "__pycache__" -l
+        ```bash
+        fotool.py -e delete -a delete -s "__pycache__" -l
         ```  
         
  2. **search_contents** - Search the content of allowed types.  
     See search_contents.py for the list of allowed types  
         Example usage:  
-        ```sh
-            fotool.py -e search_contents -s "william shakespeare" -r
+        ```bash
+        fotool.py -e search_contents -s "william shakespeare" -r
         ```  
         
  3. **pcloud_upload** - Uploads matching files to pcloud.  
