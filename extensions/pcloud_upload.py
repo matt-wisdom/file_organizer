@@ -6,6 +6,7 @@
     `pip install pcloud`
 """
 import os
+
 from pcloud import PyCloud
 
 pc = PyCloud(os.getenv("PCLOUD_USER"), os.getenv("PCLOUD_PASS"))

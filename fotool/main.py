@@ -1,9 +1,8 @@
 import os
 import os.path as pth
-from fotool.extensions import get_extension_doc, install_extension
-from fotool.extensions import list_extensions, parse_extension
 
-
+from fotool.extensions import (get_extension_doc, install_extension,
+                               list_extensions, parse_extension)
 from fotool.help import *
 from fotool.organizer import DefaultOrganizer
 from fotool.parser import parser

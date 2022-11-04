@@ -6,7 +6,7 @@ import pathlib
 import re
 import shutil
 import time
-from typing import Any, List, Tuple, Generator, Union
+from typing import Any, Generator, List, Tuple, Union
 
 import filetype
 from fuzzywuzzy import fuzz

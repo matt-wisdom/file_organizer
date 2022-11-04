@@ -1,4 +1,5 @@
 import pathlib
+
 from fotool import extensions, main, organizer
 
 test_exts = ['testextension2:RandomExtension',
