@@ -5,6 +5,10 @@
 ```bash
 pip install fotools
 ```
+To run  
+```bash
+fotools -h
+```
 
 
 ## Features
