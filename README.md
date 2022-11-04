@@ -225,23 +225,21 @@ wisdom@wisdom:~/yun/files$ tree
 </pre>
 
 ## Extending fotools  
-To extend fotools, all you need do is create a python file  
-and define an extension class with its name ending with Extension  
-eg `class DeleteExtension:`.  
+To extend fotools, all you need do is create a python file   and define an extension 
+class with its name ending with Extension. eg `class DeleteExtension:`.  
 Then run   
 ```bash
 fotool.py --install-extension /path/to/extension.py
 ```
-To extend a function simply create a similar method with name similar to that 
-of the method name without the 'default_' prepended to it e.g `default_fuzzy_search`
-becomes `fuzzy_search`.  
-To use the extension simply supply the `-e` or `--extension argument` with the value set
-to the filename without .py.  
+To extend a function simply create a similar method with name similar to that  of the
+method name without the 'default_' prepended to it e.g `default_fuzzy_search` becomes `fuzzy_search`.  
+To use the extension simply supply the `-e` or `--extension argument` with the value set to the 
+filename without .py.  
 You can list installed extensions with the  `--list-extensions` flag
+
 This program comes with some extensions (in the extensions folder") 
 which you use as reference.
-They are:  
-       
+They are:         
  1. **delete** - Adds delete command to the `-a` flag.   
     Example usage:  
         ```bash
