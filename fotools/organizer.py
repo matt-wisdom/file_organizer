@@ -9,7 +9,7 @@ import time
 from typing import Any, Generator, List, Tuple, Union
 
 import filetype
-from fuzzywuzzy import fuzz
+from rapidfuzz import fuzz
 
 from . import logger
 
