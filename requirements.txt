@@ -7,9 +7,6 @@ colorama==0.4.6; python_version >= "3.7" and python_full_version < "3.0.0" and p
 filetype==1.2.0 \
     --hash=sha256:7ce71b6880181241cf7ac8697a2f1eb6a8bd9b429f7ad6d27b8db9ba5f1c2d25 \
     --hash=sha256:66b56cd6474bf41d8c54660347d37afcc3f7d1970648de365c102ef77548aadb
-fuzzywuzzy==0.18.0 \
-    --hash=sha256:928244b28db720d1e0ee7587acf660ea49d7e4c632569cad4f1cd7e68a5f0993 \
-    --hash=sha256:45016e92264780e58972dca1b3d939ac864b78437422beecebb3095f8efd00e8
 gitdb==4.0.9; python_version >= "3.7" \
     --hash=sha256:8033ad4e853066ba6ca92050b9df2f89301b8fc8bf7e9324d412a63f8bf1a8fd \
     --hash=sha256:bac2fd45c0a1c9cf619e63a90d62bdc63892ef92387424b855792a6cabe789aa
