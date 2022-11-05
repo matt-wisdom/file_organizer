@@ -42,8 +42,8 @@ def test_parse_extension_invalid():
 def test_install_extension():
     path = pathlib.Path("tests/samples/extensions/test.py")
     extensions.install_extension(path)
-    assert pathlib.Path("extensions/test.py").exists()
-    pathlib.Path("extensions/test.py").unlink()
+    assert pathlib.Path("fotools/installed_extensions/test.py").exists()
+    pathlib.Path("fotools/installed_extensions/test.py").unlink()
 
 def test_install_extension_wrong():
     path = pathlib.Path("tests/samples/extensions/wrong.txt")
@@ -52,7 +52,7 @@ def test_install_extension_wrong():
         assert False
     except ValueError:
         pass
-    assert pathlib.Path("extensions/wrong.txt").exists() is False
+    assert pathlib.Path("installed_extensions/wrong.txt").exists() is False
 
 def test_list_extensions():
     for ext in test_exts:
