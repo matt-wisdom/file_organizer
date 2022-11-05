@@ -14,7 +14,7 @@ def install_extension(path_to_py_file: pathlib.Path) -> None:
         extension file to extensions directory
     """
     print("Installing...")
-    extensions_folder = pathlib.Path(__file__).parent.parent / "extensions"
+    extensions_folder = pathlib.Path(__file__).parent / "installed_extensions"
     path_to_py_file = pathlib.Path(path_to_py_file).absolute()
     type_ = DefaultOrganizer().default_get_file_type(path_to_py_file)
     if type_ != ('py', 'Python Source Files'):
@@ -52,7 +52,7 @@ def find_extension_class(extension_name: str,
     """
         Search an extension module for its class definition
     """
-    module = importlib.import_module(f"extensions.{extension_name}")
+    module = importlib.import_module(f"fotools.installed_extensions.{extension_name}")
     extensions = []
     for _, obj in inspect.getmembers(module):
         if inspect.isclass(obj):
@@ -90,7 +90,7 @@ def list_extensions() -> List[DefaultOrganizer]:
     """
         List all installed extensions
     """
-    extensions_folder = pathlib.Path(__file__).parent.parent / "extensions"
+    extensions_folder = pathlib.Path(__file__).parent / "installed_extensions"
     extensions = []
     for extension_file in os.listdir(extensions_folder):
         extension_name = pathlib.Path(extension_file).stem
@@ -102,5 +102,5 @@ def list_extensions() -> List[DefaultOrganizer]:
 
 
 def get_extension_doc(extension_name: str) -> str:
-    module = importlib.import_module(f"extensions.{extension_name}")
+    module = importlib.import_module(f"fotools.installed_extensions.{extension_name}")
     return module.__doc__
