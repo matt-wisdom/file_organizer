@@ -1,5 +1,6 @@
 # fileorg_tool
 ![test_status](https://github.com/matt-wisdom/file_organizer/actions/workflows/main.yml/badge.svg?event=push)
+[![codecov](https://codecov.io/gh/matt-wisdom/file_organizer/branch/main/graph/badge.svg)](https://codecov.io/gh/matt-wisdom/file_organizer)
 
 ## Installation
 ```bash
