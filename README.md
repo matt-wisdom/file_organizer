@@ -243,14 +243,14 @@ which you use as reference.
 They are:         
  1. **delete** - Adds delete command to the `-a` flag.   
     Example usage:  
-        ```bash
+        ```
         fotool.py -e delete -a delete -s "__pycache__" -l
         ```  
         
  2. **search_contents** - Search the content of allowed types.  
     See search_contents.py for the list of allowed types  
         Example usage:  
-        ```bash
+        ```
         fotool.py -e search_contents -s "william shakespeare" -r
         ```  
         
