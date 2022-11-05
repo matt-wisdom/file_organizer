@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "fotools"
-version = "0.1.1"
+version = "0.1.2"
 description = "Tool for searching and organizing files"
 authors = ["Matthew Wisdom <matthewwisdom11@gmail.com>"]
 license = "BSD 3-Clause License"
